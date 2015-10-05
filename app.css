@@ -1,0 +1,12 @@
+.autocomplete-custom-template img{
+    width: 60px;
+    height: 60px;
+    border-radius: 60px;
+    border: solid #CCC 1px;
+    margin-right: 15px;
+}
+
+.autocomplete-custom-template > li{
+    height: 70px;
+    padding-top: 10px;
+}
