@@ -10,7 +10,7 @@
 <md-content flex>
 
     <md-list>
-        <div ng-repeat="item in vm.items | filter:searchText">
+        <div ng-repeat="item in vm.items | filter:{name: searchText}">
             <md-list-item class="md-2-line">
                 <img ng-src="{{item.img}}?{{$index}}" class="md-avatar" alt="{{item.name}}" />
                 <div class="md-list-item-text" layout="column">
