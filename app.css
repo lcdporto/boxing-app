@@ -10,3 +10,11 @@
     height: 70px;
     padding-top: 10px;
 }
+
+md-toolbar:not(.md-menu-toolbar) .md-input-focused > md-icon.hover-accent {
+    color: rgb(255,193,7) !important;
+}
+
+#main-items-search-input{
+    color:white;
+}
