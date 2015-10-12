@@ -3,8 +3,12 @@
 
     angular
             .module('app', ['ngMaterial', 'ui.router'])
-            .config(function ($stateProvider, $urlRouterProvider) {
+            .config(function ($stateProvider, $urlRouterProvider, $mdThemingProvider) {
                 $urlRouterProvider.otherwise("/list");
+
+                $mdThemingProvider.theme('default')
+                   .primaryPalette('blue-grey')
+                   .accentPalette('amber');
 
                 $stateProvider
                         .state('list', {
