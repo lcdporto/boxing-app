@@ -5,10 +5,15 @@
             .module('app')
             .controller('ItemsController', Controller);
 
-    Controller.$inject = ['ItemsService'];
+    Controller.$inject = ['Item'];
 
-    function Controller(ItemsService) {
+    function Controller(Item) {
         var vm = this;
-        vm.items = ItemsService.find();
+
+        Item.all()/*.$promise.then(function (data) {
+            vm.items = data;
+        }, function (errResponse) {
+            // fail
+        })*/;
     }
 })();

@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-            .module('app', ['ngMaterial', 'ui.router'])
+            .module('app', ['ngMaterial', 'ui.router', 'ngResource'])
             .config(function ($stateProvider, $urlRouterProvider, $mdThemingProvider) {
                 $urlRouterProvider.otherwise("/list");
 

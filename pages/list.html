@@ -12,7 +12,7 @@
     <md-list>
         <div ng-repeat="item in vm.items | filter:{name: searchText}">
             <md-list-item class="md-2-line">
-                <img ng-src="{{item.img}}?{{$index}}" class="md-avatar" alt="{{item.name}}" />
+                <img ng-src="{{item.image}}?{{$index}}" class="md-avatar" alt="{{item.name}}" />
                 <div class="md-list-item-text" layout="column">
                     <h3>{{ item.name}}</h3>
                     <p>{{ item.Box.Container.name}} > {{ item.Box.name}}</p>
