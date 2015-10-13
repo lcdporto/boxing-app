@@ -1,0 +1,14 @@
+{
+  "name": "boxsyncapp",
+  "version": "0.0.1",
+  "description": "BoxSyncApp",
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-util": "^3.0.4",
+    "gulp-webserver": "^0.9.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@bitbucket.org:ricardolobo/boxsyncapp.git"
+  }
+}

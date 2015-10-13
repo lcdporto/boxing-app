@@ -1,1 +1,11 @@
-/nbproject/private/
+/nbproject/*
+# linux temporary files
+
+*~
+
+# emacs temporary files
+
+\#*#\
+
+node_modules/*
+bower_components/*

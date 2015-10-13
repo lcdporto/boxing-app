@@ -4,11 +4,10 @@
   "authors": [
     "Ighor Martins <ighor.martins@gmail.com>"
   ],
-  "description": "",
-  "main": "",
-  "moduleType": [],
+  "moduleType": [
+    "node"
+  ],
   "license": "MIT",
-  "homepage": "",
   "ignore": [
     "**/.*",
     "node_modules",
@@ -17,6 +16,8 @@
     "tests"
   ],
   "dependencies": {
-    "angular-material": "~0.11.2"
+    "angular-material": "~0.11.4",
+    "angular-resource": "~1.4.7",
+    "angular-ui-router": "~0.2.15"
   }
 }
