@@ -19,7 +19,8 @@
         function activate() {
             ItemsService.all().$promise.then(
                 function(data){
-                    vm.items = data.items;
+                    console.log(data);
+                    vm.items = data.results;
             });
         }
     }

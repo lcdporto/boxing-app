@@ -1,0 +1,38 @@
+<md-toolbar layout-padding layout="column" layout-align="left end">
+
+    <md-input-container md-no-float style="margin: 10px 0; padding: 0px;" class="md-accent">
+        <md-icon class="hover-accent">search</md-icon>
+        <input ng-model="searchText" type="text" placeholder="Search for items" id="main-items-search">
+    </md-input-container>
+
+</md-toolbar>
+
+<md-content flex>
+
+    <form ng-submit="vm.submit()">
+        <md-input-container flex>
+            <label>Que item tas a criar?</label>
+            <input ng-model="vm.newItem.name">
+        </md-input-container>
+
+
+        <md-input-container flex>
+            <label>Mete ai uma imagem para representar o bicho (URL = STRING)</label>
+            <input ng-model="vm.newItem.image">
+        </md-input-container>
+
+
+        <md-input-container flex>
+            <label>E esse item têm casa??</label>
+            <md-select ng-model="vm.newItem.container">
+                <md-option ng-repeat="container in vm.containers" value="{{container.url}}">
+                    {{container.name}}
+                </md-option>
+            </md-select>
+        </md-input-container>
+
+
+        <input type="submit" id="submit" value="Adicionar" />
+    </form>
+
+</md-content>

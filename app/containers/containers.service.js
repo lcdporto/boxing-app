@@ -5,13 +5,22 @@
         .module('app')
         .service('ContainersService', Service);
     
-    Service.$inject = [];
+    Service.$inject = ['$http', 'ContainersFactory'];
     
     /* @ngInject */
-    function Service() {
-        this.func = func;
-        
-        function func() {
+    function Service($http, ContainersFactory) {
+        this.getContainerByUrl = getContainerByUrl;
+        this.all = all;
+
+        function getContainerByUrl(url) {
+            return $http({
+                method: 'GET',
+                url: url
+            })
+        }
+
+        function all() {
+            return ContainersFactory.query();
         }
     }
 })();

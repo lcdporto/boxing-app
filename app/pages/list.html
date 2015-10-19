@@ -12,10 +12,10 @@
     <md-list>
         <div ng-repeat="item in vm.items | filter:{name: searchText}">
             <md-list-item class="md-2-line">
-                <img ng-src="{{item.Item.image}}?{{$index}}" class="md-avatar" alt="{{item.Item.name}}" />
+                <img ng-src="{{item.image}}?{{$index}}" class="md-avatar" alt="{{item.name}}" />
                 <div class="md-list-item-text" layout="column">
-                    <h3>{{ item.Item.name}}</h3>
-                    <p>Local: {{ item.Item.Container.name}}</p>
+                    <h3>{{ item.name}}</h3>
+                    <p>Local: {{ item.container.name}}</p>
                 </div>
             </md-list-item>
             <md-divider ></md-divider>

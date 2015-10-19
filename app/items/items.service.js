@@ -6,21 +6,23 @@
         .module('app')
         .service('ItemsService', Service);
     
-    Service.$inject = ['ItemsFactory', 'ContainersFactory', '$q'];
+    Service.$inject = ['ItemsFactory', 'ContainersService', '$q'];
     
     /* @ngInject */
-    function Service(ItemsFactory, ContainersFactory, $q) {
+    function Service(ItemsFactory, ContainersService, $q) {
         this.all = all;
 
         function all() {
             var items;
             return ItemsFactory.query(function(data){
-                items = data.items;
+                items = data.results;
                 var requests = [];
                 angular.forEach(items, function(item){
-                    requests.push(ContainersFactory.get({containerId: item.Item.container_id}, function(data){
-                        item.Item.Container = data.Container;
-                    }));
+                    var request = ContainersService.getContainerByUrl(item.container);
+                    requests.push(request);
+                    request.then(function(container){
+                        item.container = container.data;
+                    });
                 });
                 return $q.all(requests);
             })
