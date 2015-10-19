@@ -5,10 +5,10 @@
         .module('app')
         .factory('ContainersFactory', factory);
     
-    factory.$inject = ['$resource'];
+    factory.$inject = ['$resource', 'AppSettings'];
     
     /* @ngInject */
-    function factory($resource) {
-        return $resource('http://192.168.1.73/boxinglab/api/1/containers/:containerId/', {containerId: "@id"}, { query: {} });
+    function factory($resource, AppSettings) {
+        return $resource(AppSettings.apiUrl + '/containers/:containerId/', {containerId: "@id"}, { query: {} });
     }
 })();
