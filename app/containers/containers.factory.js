@@ -3,12 +3,12 @@
     
     angular
         .module('app')
-        .factory('BoxesFactory', factory);
+        .factory('ContainersFactory', factory);
     
     factory.$inject = ['$resource'];
     
     /* @ngInject */
     function factory($resource) {
-        return $resource('http://192.168.1.219:8080/boxes/:id/', {}, { query: {} });
+        return $resource('http://localhost/boxinglab/api/1/containers/:containerId/', {containerId: "@id"}, { query: {} });
     }
 })();
