@@ -18,7 +18,7 @@
                 items = data.items;
                 var requests = [];
                 angular.forEach(items, function(item){
-                    requests.push(ContainersFactory.get({containerId: 1}, function(data){
+                    requests.push(ContainersFactory.get({containerId: item.Item.container_id}, function(data){
                         item.Item.Container = data.Container;
                     }));
                 });
