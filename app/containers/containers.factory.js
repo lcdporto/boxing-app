@@ -9,6 +9,6 @@
     
     /* @ngInject */
     function factory($resource) {
-        return $resource('http://localhost/boxinglab/api/1/containers/:containerId/', {containerId: "@id"}, { query: {} });
+        return $resource('http://192.168.1.73/boxinglab/api/1/containers/:containerId/', {containerId: "@id"}, { query: {} });
     }
 })();
