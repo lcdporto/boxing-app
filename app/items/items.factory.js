@@ -9,6 +9,6 @@
     
     /* @ngInject */
     function factory($resource, AppSettings) {
-        return $resource(AppSettings.apiUrl + '/items/:id/?fields=*', {}, { query: { method: "GET", isArray: false } });
+        return $resource(AppSettings.apiUrl + '/items/:id', {}, { query: { } });
     }
 })();
