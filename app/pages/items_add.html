@@ -1,15 +1,19 @@
-<md-toolbar layout-padding layout="column" layout-align="left end">
-
-    <md-input-container md-no-float style="margin: 10px 0; padding: 0px;" class="md-accent">
-        <md-icon class="hover-accent">search</md-icon>
-        <input ng-model="searchText" type="text" placeholder="Search for items" id="main-items-search">
-    </md-input-container>
-
-</md-toolbar>
-
-<md-content flex>
-
-    <form ng-submit="vm.submit()">
+<div class="header-toolbar">
+    <div class="md-toolbar-tools">
+        <a ui-sref="list" class="md-icon-button" style="margin-right: 10px;">
+            <md-icon>arrow_back</md-icon>
+        </a>
+        <h2>
+            <span>Adicionar objecto</span>
+        </h2>
+        <span flex></span>
+        <md-button class="md-primary" aria-label="Guardar novo objecto" ng-click="vm.submit()">
+            Guardar
+        </md-button>
+    </div>
+</div>
+<md-content flex layout-padding>
+    <form ng-submit="vm.submit()" layout-padding>
         <md-input-container flex>
             <label>Que item tas a criar?</label>
             <input ng-model="vm.newItem.name">
@@ -31,8 +35,5 @@
             </md-select>
         </md-input-container>
 
-
-        <input type="submit" id="submit" value="Adicionar" />
     </form>
-
 </md-content>

@@ -1,38 +1,50 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="app">
-    <head>
-        <link rel="stylesheet" href="libs/angular-material/angular-material.min.css">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link href="app.css" rel="stylesheet">
-        <meta name="viewport" content="initial-scale=1" />
-    </head>
-    <body ng-cloak>
+<head>
+    <link rel="stylesheet" href="libs/angular-material/angular-material.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="app.css" rel="stylesheet">
+    <meta name="viewport" content="initial-scale=1"/>
+</head>
+<body ng-cloak layout="column" layout-align="start center">
 
-        <div ui-view></div>
+<md-toolbar class="md-tall" id="app-header">
+    <div class="md-toolbar-tools">
+        <md-button class="md-icon-button">
+            <md-icon>inbox</md-icon>
+        </md-button>
+        <h2>
+            <span>Boxing Lab</span>
+        </h2>
+    </div>
+</md-toolbar>
 
-    <!-- Angular Material Dependencies -->
-    <script src="libs/angular/angular.min.js"></script>
-    <script src="libs/angular-ui-router/release/angular-ui-router.min.js"></script>
-    <script src="libs/angular-resource/angular-resource.min.js"></script>
-    <script src="libs/angular-animate/angular-animate.min.js"></script>
-    <script src="libs/angular-aria/angular-aria.min.js"></script>
-    <script src="libs/angular-material/angular-material.min.js"></script>
 
-    <!-- App General files -->
-    <script src="app.js"></script>
-    <script src="app.settings.js"></script>
+<div ui-view id="page-wrapper" class="md-whiteframe-3dp" flex layout="column"></div>
 
-    <!-- containers -->
-    <script src="containers/containers.service.js"></script>
-    <script src="containers/containers.factory.js"></script>
+<!-- Angular Material Dependencies -->
+<script src="libs/angular/angular.min.js"></script>
+<script src="libs/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="libs/angular-resource/angular-resource.min.js"></script>
+<script src="libs/angular-animate/angular-animate.min.js"></script>
+<script src="libs/angular-aria/angular-aria.min.js"></script>
+<script src="libs/angular-material/angular-material.min.js"></script>
 
-    
-    <!-- items -->
-    <script src="items/items.list.controller.js"></script>
-    <script src="items/items.add.controller.js"></script>
-    <script src="items/items.service.js"></script>
-    <script src="items/items.factory.js"></script>
-    
+<!-- App General files -->
+<script src="app.js"></script>
+<script src="app.settings.js"></script>
+
+<!-- containers -->
+<script src="containers/containers.service.js"></script>
+<script src="containers/containers.factory.js"></script>
+
+
+<!-- items -->
+<script src="items/items.list.controller.js"></script>
+<script src="items/items.add.controller.js"></script>
+<script src="items/items.service.js"></script>
+<script src="items/items.factory.js"></script>
+
 </body>
 </html>
