@@ -1,16 +1,13 @@
-<md-toolbar layout-padding layout="column" layout-align="left end">
+<div class="header-toolbar" layout="column">
+    <md-icon class="search">search</md-icon>
+    <input ng-model="vm.searchText" type="text" flex placeholder="Encontrar objectos"/>
+</div>
 
-    <md-input-container md-no-float style="margin: 10px 0; padding: 0px;" class="md-accent">
-        <md-icon class="hover-accent">search</md-icon>
-        <input ng-model="searchText" type="text" placeholder="Search for items" id="main-items-search">
-    </md-input-container>
 
-</md-toolbar>
-
-<md-content flex>
+<md-content flex layout-padding>
 
     <md-list>
-        <div ng-repeat="item in vm.items | filter:{name: searchText}">
+        <div ng-repeat="item in vm.items | filter:{name: vm.searchText}">
             <md-list-item class="md-2-line">
                 <img ng-src="{{item.image}}?{{$index}}" class="md-avatar" alt="{{item.name}}" />
                 <div class="md-list-item-text" layout="column">
