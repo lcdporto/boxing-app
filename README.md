@@ -42,8 +42,10 @@ bower install
 ### Who do I talk to? ###
 
 If you have something to say, feel free to contact:
+
 * Ighor Martins (ighor.martins@gmail.com)
 * Ricardo Lobo (ricardolobo@audienciazero.org)
 
 You can always come to our Lab too :)
+
 More info at: http://labcd.org/
