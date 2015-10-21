@@ -24,14 +24,28 @@ npm install
 #!shell
 
 bower install
+
 ```
+
+* Copy the app.settings.js available on the /dist folder to the /app folder
+* If needed tweak the settings to match you setup
+
+```
+#!shell
+
+cp dist/app.settings.js .
+
+```
+
 * If everything went well, you can run the server with
+
 ```
 #!shellscript
 
 ./gulp
 ```
 
+*
 
 
 ### Contribution guidelines ###
