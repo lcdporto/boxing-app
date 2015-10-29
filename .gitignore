@@ -8,5 +8,9 @@
 
 \#*#\
 
+# node modules and bower components
 node_modules/*
 bower_components/*
+
+# project settings
+app/app.settings.js
