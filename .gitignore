@@ -10,7 +10,7 @@
 
 # node modules and bower components
 node_modules/*
-bower_components/*
+app/libs/*
 
 # project settings
 app/app.settings.js
