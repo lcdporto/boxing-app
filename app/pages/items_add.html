@@ -28,7 +28,7 @@
 
         <md-input-container flex>
             <label>E esse item têm casa??</label>
-            <md-select ng-model="vm.newItem.container">
+            <md-select ng-model="vm.newItem.container" md-on-open="vm.loadContainers()">
                 <md-option ng-repeat="container in vm.containers" value="{{container.url}}">
                     {{container.name}}
                 </md-option>
