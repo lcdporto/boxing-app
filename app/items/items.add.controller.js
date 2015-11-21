@@ -22,13 +22,15 @@
         activate();
         
         function activate() {
-            vm.loadContainers().then(function(data){
-                vm.containers = data.results;
-            });
+            loadContainers();
         }
 
         function loadContainers(){
-            return ContainersService.all().$promise;
+            var promise = ContainersService.all().$promise;
+            promise.then(function(data){
+                vm.containers = data.results;
+            });
+            return promise;
         }
 
         function submit(){
