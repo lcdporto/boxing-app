@@ -2,18 +2,38 @@
     'use strict';
 
     angular
-            .module('app', ['ngMaterial', 'ui.router', 'ngResource'])
-            .config(function ($stateProvider, $urlRouterProvider, $mdThemingProvider, $resourceProvider) {
+            .module('app', ['ngMaterial', 'ui.router', 'ngResource', 'satellizer'])
+            .config(function ($stateProvider, $urlRouterProvider, $mdThemingProvider, $resourceProvider, $authProvider, AppSettings) {
 
                 $resourceProvider.defaults.stripTrailingSlashes = false;
 
-                $urlRouterProvider.otherwise("/list");
 
                 $mdThemingProvider.theme('default')
                                   .primaryPalette('blue-grey')
                                   .accentPalette('amber');
 
-                $stateProvider
+
+
+                $authProvider.loginUrl = AppSettings.apiUrl + '/api-token-auth/';
+
+                if(true){
+                    $urlRouterProvider.otherwise('/auth');
+                    $stateProvider
+                        .state('auth', {
+                            url: '/auth',
+                            templateUrl: 'auth/auth.login.view.html',
+                            controller: 'AuthLoginController',
+                            controllerAs: 'vm'
+                        })
+                        .state('users', {
+                            url: '/users',
+                            templateUrl: '../views/userView.html',
+                            controller: 'UserController',
+                            controllerAs: 'vm'
+                        });
+                }else{
+                    $urlRouterProvider.otherwise('/list');
+                    $stateProvider
                         .state('list', {
                             url: "/list",
                             templateUrl: "pages/list.html",
@@ -26,8 +46,10 @@
                             controller: 'ItemsAddController',
                             controllerAs: 'vm'
                         });
-            });
 
+                }
+
+            })
 
 
 })();
