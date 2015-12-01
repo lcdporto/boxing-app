@@ -5,31 +5,47 @@
         .module('app')
         .controller('AuthLoginController', Controller);
 
-    Controller.$inject = ['$state', '$scope', '$auth'];
+    Controller.$inject = ['$rootScope', '$state', '$auth', '$window', 'AccountsService'];
 
     /* @ngInject */
-    function Controller($state, $scope, $auth) {
+    function Controller($rootScope, $state, $auth, $window, AccountsService) {
         var vm = this;
         vm.title = 'Login';
         vm.login = login;
 
         activate();
 
-        function activate() {}
+        function activate() {
+        }
+
+        function decodeJWTToken(token){
+            var base64Url = token.split('.')[1];
+            var base64 = base64Url.replace('-', '+').replace('_', '/');
+            return JSON.parse($window.atob(base64));
+        }
 
         function login(){
 
-
             var credentials = {
-                username: vm.username,
+                email: vm.email,
                 password: vm.password
             }
 
 
             $auth.login(credentials).then(function(data) {
-                console.log(data);
+                return AccountsService.get((decodeJWTToken(data.data.token)).user_id);
+            }, function(error){
 
-                //$state.go('users', {});
+            }).then(function(response){
+                console.log(response);
+                console.log(response.email);
+                var user = JSON.stringify(response);
+
+                localStorage.setItem('user', user);
+
+                $rootScope.authenticated = response;
+
+                $state.go('list');
             });
 
 
