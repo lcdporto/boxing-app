@@ -8,7 +8,7 @@ MAINTAINER Ricardo Lobo <ricardolobo@audienciazero.org>
 COPY app /var/www/boxing-app/app
 
 # copy nginx configuration file
-COPY app/dist/nginx/default.conf /etc/nginx/conf.d/
+COPY dist/nginx/default.conf /etc/nginx/conf.d/
 
 # copy production angular app settings
-COPY app/dist/angular/production/app.settings.js /var/www/boxing-app/app/
+COPY dist/angular/production/app.settings.js /var/www/boxing-app/app/
