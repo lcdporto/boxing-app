@@ -33,7 +33,7 @@ bower install
 ```
 #!shell
 
-cp dist/app.settings.js .
+cp dist/app.settings.js app/app.settings.js
 
 ```
 
