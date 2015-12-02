@@ -9,6 +9,6 @@
     
     /* @ngInject */
     function factory($resource, AppSettings) {
-        return $resource(AppSettings.apiUrl + '/containers/:containerId/', {containerId: "@id"}, { query: {} });
+        return $resource(AppSettings.apiUrl + '/containers/:id/', {}, { query: {} });
     }
 })();

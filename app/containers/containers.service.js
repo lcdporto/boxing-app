@@ -11,6 +11,7 @@
     function Service($http, ContainersFactory) {
         this.getContainerByUrl = getContainerByUrl;
         this.all = all;
+        this.get = get;
 
         function getContainerByUrl(url) {
             return $http({
@@ -21,6 +22,10 @@
 
         function all() {
             return ContainersFactory.query();
+        }
+
+        function get(id){
+            return ContainersFactory.get({id:id}).$promise;
         }
     }
 })();
