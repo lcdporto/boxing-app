@@ -13,6 +13,7 @@
         vm.title = 'Controller';
         vm.containers = [];
         vm.newItem = new ItemsFactory();
+        vm.loadContainers = loadContainers;
 
 
         vm.submit = submit;
@@ -21,9 +22,15 @@
         activate();
         
         function activate() {
-            ContainersService.all().$promise.then(function(data){
+            loadContainers();
+        }
+
+        function loadContainers(){
+            var promise = ContainersService.all().$promise;
+            promise.then(function(data){
                 vm.containers = data.results;
             });
+            return promise;
         }
 
         function submit(){
