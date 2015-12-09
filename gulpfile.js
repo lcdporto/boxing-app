@@ -10,10 +10,12 @@ var config = {
     index: 'app/index.html',
     app: 'app/',
     libs: 'app/libs/',
-    files: [
+    jsfiles: [
         'app/**/*.module.js',
         'app/**/*.js',
-        '!app/libs/**/*',
+        '!app/libs/**/*'
+    ],
+    cssfiles: [
         'app/*.css'
     ],
     bowerjson: './bower.json',
@@ -32,13 +34,12 @@ gulp.task('webserver', function() {
 });
 
 /*
- *  Uses Wiredep to read dependencies from bower.json file
- *  and inject them in the index.html file
+ *  watcher setup
 */
 
 gulp.task('watchers', function(){
     util.log(util.colors.bgBlue('Setting Up Watchers'));
-    gulp.watch(config.jsfiles, ['html-inject']);
+    gulp.watch(config.jsfiles.concat(config.cssfiles), ['html-inject']);
     // we could set up here a watcher for the bower files, but that means the task
     // will run twice on install, and also none on uninstall since there appears
     // to be some issues with the watch task and also with the gaze dependency
@@ -68,7 +69,7 @@ gulp.task('html-inject', function() {
         // gulp inject options: https://github.com/klei/gulp-inject#optionsrelative
         // we want the inject to be relative to the target (index.html) and not
         // the current working dir as is the default
-        .pipe(inject(gulp.src(config.files, {read: false}), {relative: true}))
+        .pipe(inject(gulp.src(config.jsfiles.concat(config.cssfiles), {read: false}), {relative: true}))
         .pipe(gulp.dest(config.app));
 });
 
@@ -95,7 +96,6 @@ gulp.task('bower-html-inject', ['html-inject'], function() {
         .pipe(wiredep(options))
         .pipe(gulp.dest(config.app));
 });
-
 
 // setting up the default task, that calls an array of tasks
 gulp.task('default', ['bower-html-inject', 'webserver', 'watchers']);
