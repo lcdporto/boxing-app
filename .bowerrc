@@ -1,3 +1,7 @@
 {
-  "directory": "app/libs/"
+  "directory": "app/libs/",
+  "scripts": {
+    "postinstall": "gulp bower-html-inject",
+    "preuninstall": "gulp bower-html-inject"
+  }
 }
