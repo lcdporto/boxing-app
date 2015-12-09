@@ -2,11 +2,15 @@
 <html lang="en" ng-app="app">
     <head>
 
+        <!-- build:css css/styles.css -->
         <!-- bower:css -->
+        <link rel="stylesheet" href="libs/angular-material/angular-material.css" />
         <!-- endbower -->
 
         <!-- inject:css -->
+        <link rel="stylesheet" href="app.css">
         <!-- endinject -->
+        <!-- endbuild  -->
 
         <!-- cdns -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
@@ -32,13 +36,36 @@
 
         <div ui-view id="page-wrapper" class="md-whiteframe-3dp" flex layout="column"></div>
 
+        <!-- build:js js/libs.js -->
         <!-- inject dependencies defined in bower.json using wiredep and gulp-inject -->
         <!-- bower:js -->
+        <script src="libs/angular/angular.js"></script>
+        <script src="libs/angular-animate/angular-animate.js"></script>
+        <script src="libs/angular-aria/angular-aria.js"></script>
+        <script src="libs/angular-material/angular-material.js"></script>
+        <script src="libs/angular-resource/angular-resource.js"></script>
+        <script src="libs/angular-ui-router/release/angular-ui-router.js"></script>
+        <script src="libs/satellizer/satellizer.js"></script>
         <!-- endbower -->
+        <!-- endbuild -->
 
+        <!-- build:js js/app.js -->
         <!-- inject our custom code using gulp-inject -->
         <!-- inject:js -->
+        <script src="app.js"></script>
+        <script src="app.settings.js"></script>
+        <script src="accounts/accounts.factory.js"></script>
+        <script src="accounts/accounts.service.js"></script>
+        <script src="auth/auth.login.controller.js"></script>
+        <script src="auth/auth.logout.controller.js"></script>
+        <script src="containers/containers.factory.js"></script>
+        <script src="containers/containers.service.js"></script>
+        <script src="items/items.add.controller.js"></script>
+        <script src="items/items.factory.js"></script>
+        <script src="items/items.list.controller.js"></script>
+        <script src="items/items.service.js"></script>
         <!-- endinject -->
+        <!-- endbuild -->
 
     </body>
 </html>

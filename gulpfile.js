@@ -6,7 +6,11 @@ var debug = require('gulp-debug'); // https://www.npmjs.com/package/gulp-debug
 var jshint = require('gulp-jshint'); // https://github.com/spalger/gulp-jshint
 var jscs = require('gulp-jscs'); // https://github.com/jscs-dev/gulp-jscs
 var yargs = require('yargs').argv; // https://www.npmjs.com/package/yargs
-var gulpif = require('gulp-if');
+var gulpif = require('gulp-if'); // https://github.com/robrich/gulp-if
+var annotate = require('gulp-ng-annotate'); // https://www.npmjs.com/package/gulp-ng-annotate
+var filter = require('gulp-filter'); // https://www.npmjs.com/package/gulp-filter
+var uglify = require('gulp-uglify'); // https://github.com/terinjokes/gulp-uglify
+var useref = require('gulp-useref'); // https://www.npmjs.com/package/gulp-useref
 
 // global configuration object
 // to centralize the configs in
@@ -14,6 +18,7 @@ var gulpif = require('gulp-if');
 var config = {
     index: 'app/index.html',
     app: 'app/',
+    build: 'build/app',
     libs: 'app/libs/',
     jsfiles: [
         'app/**/*.module.js',
@@ -119,6 +124,43 @@ gulp.task('code-check', function(){
         // stylish reporter https://github.com/sindresorhus/jshint-stylish
         .pipe(jshint.reporter('jshint-stylish'), {verbose: true});
 });
+
+/*
+ * Create a build, by default a development build
+ * to create a production build pass is --production
+ */
+
+gulp.task('build', function(){
+    util.log(util.colors.bgBlue('Building App for Production'));
+    // define the filter to be used
+    // files matching this pattern will be kept
+    // and processed by the annotate and uglify task
+    // the remaining will be filtered out, until restore is called
+    var keep_filter = filter(['**/*.js', '!libs/**/*'], {restore: true});
+    return gulp
+        .src('app/**/*')
+        // .pipe(debug({title: 'in pipe'}))
+        .pipe(keep_filter)
+        .pipe(debug({title: 'after filter'}))
+        .pipe(annotate())
+        // .pipe(uglify())
+        .pipe(keep_filter.restore)
+        // .pipe(debug({title: 'after restore'}))
+        .pipe(useref())
+        .pipe(gulp.dest(config.build))
+});
+
+// https://github.com/schickling/gulp-webserver
+// http://stephenradford.me/gulp-angularjs-and-html5mode/
+gulp.task('serve', function() {
+    gulp.src(config.build)
+        .pipe(webserver({
+            fallback: 'index.html',
+            livereload: true,
+            open: true
+        }));
+});
+
 
 // setting up the default task, that calls an array of tasks
 gulp.task('default', ['bower-html-inject', 'webserver', 'watchers']);
