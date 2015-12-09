@@ -2,6 +2,11 @@ var gulp = require('gulp');
 var webserver = require('gulp-webserver');
 var inject = require('gulp-inject');
 var util = require('gulp-util');
+var debug = require('gulp-debug'); // https://www.npmjs.com/package/gulp-debug
+var jshint = require('gulp-jshint'); // https://github.com/spalger/gulp-jshint
+var jscs = require('gulp-jscs'); // https://github.com/jscs-dev/gulp-jscs
+var yargs = require('yargs').argv; // https://www.npmjs.com/package/yargs
+var gulpif = require('gulp-if');
 
 // global configuration object
 // to centralize the configs in
@@ -35,7 +40,7 @@ gulp.task('webserver', function() {
 
 /*
  *  watcher setup
-*/
+ */
 
 gulp.task('watchers', function(){
     util.log(util.colors.bgBlue('Setting Up Watchers'));
@@ -56,7 +61,7 @@ gulp.task('watchers', function(){
  *
  *  @bug when adding folders gulp might crash, at least in linux
  *  the problem seems to be with gaze, and has no easy solution
-*/
+ */
 
 gulp.task('html-inject', function() {
     // gulp util uses chalk, see reference
@@ -80,7 +85,7 @@ gulp.task('html-inject', function() {
  *  we have setup a task dependency on html-inject because
  *  on launch if we have two tasks in parallel injecting in the html
  *  on of them will override the changes made by the other
-*/
+ */
 
 gulp.task('bower-html-inject', ['html-inject'], function() {
     util.log(util.colors.bgBlue('Bower Dependencies HTML Inject'));
@@ -95,6 +100,24 @@ gulp.task('bower-html-inject', ['html-inject'], function() {
         .src(config.index)
         .pipe(wiredep(options))
         .pipe(gulp.dest(config.app));
+});
+
+/*
+ * Lints JavaScript code and enforces coding style. Rules are
+ * defined in .jshintrc and .jscsrc respectively
+ * when used with --debug prints the files that are being piped
+ *
+ */
+
+gulp.task('code-check', function(){
+    util.log(util.colors.bgBlue('Code check using JSHint and JSCS'))
+        return gulp
+        .src(config.jsfiles)
+        .pipe(gulpif(yargs.debug, debug({title: 'code-check'})))
+        .pipe(jscs())
+        .pipe(jshint())
+        // stylish reporter https://github.com/sindresorhus/jshint-stylish
+        .pipe(jshint.reporter('jshint-stylish'), {verbose: true});
 });
 
 // setting up the default task, that calls an array of tasks
