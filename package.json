@@ -4,8 +4,10 @@
   "description": "BoxSyncApp",
   "devDependencies": {
     "gulp": "^3.8.11",
+    "gulp-inject": "^3.0.0",
     "gulp-util": "^3.0.4",
-    "gulp-webserver": "^0.9.0"
+    "gulp-webserver": "^0.9.0",
+    "wiredep": "^2.2.2"
   },
   "repository": {
     "type": "git",
