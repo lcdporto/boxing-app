@@ -11,6 +11,8 @@ var annotate = require('gulp-ng-annotate'); // https://www.npmjs.com/package/gul
 var filter = require('gulp-filter'); // https://www.npmjs.com/package/gulp-filter
 var uglify = require('gulp-uglify'); // https://github.com/terinjokes/gulp-uglify
 var useref = require('gulp-useref'); // https://www.npmjs.com/package/gulp-useref
+var minify = require('gulp-minify-css'); // https://www.npmjs.com/package/gulp-minify-css
+var imagemin = require('gulp-imagemin'); // https://github.com/sindresorhus/gulp-imagemin
 
 // global configuration object
 // to centralize the configs in
@@ -18,8 +20,9 @@ var useref = require('gulp-useref'); // https://www.npmjs.com/package/gulp-usere
 var config = {
     index: 'app/index.html',
     app: 'app/',
-    build: 'build/app',
+    build: 'build/app/',
     libs: 'app/libs/',
+    images: 'app/images/*.*',
     jsfiles: [
         'app/**/*.module.js',
         'app/**/*.js',
@@ -34,7 +37,7 @@ var config = {
 
 // https://github.com/schickling/gulp-webserver
 // http://stephenradford.me/gulp-angularjs-and-html5mode/
-gulp.task('webserver', function() {
+gulp.task('webserver', ['dev-settings'], function() {
     gulp.src(config.app)
         .pipe(webserver({
             fallback: 'index.html',
@@ -126,33 +129,61 @@ gulp.task('code-check', function(){
 });
 
 /*
- * Create a build, by default a development build
- * to create a production build pass is --production
+ * Create a build to prepare the app for production
  */
 
-gulp.task('build', function(){
+gulp.task('build', ['bower-html-inject', 'html-inject', 'images', 'production-settings'], function(){
     util.log(util.colors.bgBlue('Building App for Production'));
-    // define the filter to be used
-    // files matching this pattern will be kept
-    // and processed by the annotate and uglify task
-    // the remaining will be filtered out, until restore is called
-    var keep_filter = filter(['**/*.js', '!libs/**/*'], {restore: true});
     return gulp
-        .src('app/**/*')
-        // .pipe(debug({title: 'in pipe'}))
-        .pipe(keep_filter)
-        .pipe(debug({title: 'after filter'}))
-        .pipe(annotate())
-        // .pipe(uglify())
-        .pipe(keep_filter.restore)
-        // .pipe(debug({title: 'after restore'}))
+        .src('app/**/*.html')
         .pipe(useref())
-        .pipe(gulp.dest(config.build))
+        .pipe(gulpif('*.js', annotate()))
+        .pipe(gulpif('*.js', uglify()))
+        .pipe(gulpif('*.css', minify()))
+        .pipe(gulp.dest(config.build));
 });
 
-// https://github.com/schickling/gulp-webserver
-// http://stephenradford.me/gulp-angularjs-and-html5mode/
-gulp.task('serve', function() {
+/*
+* Compresses images and copies them to the build folder
+*/
+
+gulp.task('images',function(){
+    util.log(util.colors.bgBlue('Compressing and Copying Images to Build Folder'));
+    return gulp
+        .src(config.images)
+        .pipe(imagemin())
+        .pipe(gulp.dest(config.build + 'images'));
+});
+
+/*
+* Copies development settings file to app folder
+*/
+
+gulp.task('dev-settings',function(){
+    util.log(util.colors.bgBlue('Copying Development Settings File'));
+    return gulp
+        .src('dist/angular/development/app.settings.js')
+        .pipe(gulp.dest(config.app));
+});
+
+/*
+* Copies production settings file to app folder
+*/
+
+gulp.task('production-settings',function(){
+    util.log(util.colors.bgBlue('Copying Production Settings File'));
+    return gulp
+        .src('dist/angular/production/app.settings.js')
+        .pipe(gulp.dest(config.app));
+});
+
+
+/*
+* Launch a webserver to serve the production build
+*/
+
+gulp.task('serve', ['build'], function() {
+    util.log(util.colors.bgBlue('Serving Production Build'));
     gulp.src(config.build)
         .pipe(webserver({
             fallback: 'index.html',
