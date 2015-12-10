@@ -13,6 +13,7 @@ var uglify = require('gulp-uglify'); // https://github.com/terinjokes/gulp-uglif
 var useref = require('gulp-useref'); // https://www.npmjs.com/package/gulp-useref
 var minify = require('gulp-minify-css'); // https://www.npmjs.com/package/gulp-minify-css
 var imagemin = require('gulp-imagemin'); // https://github.com/sindresorhus/gulp-imagemin
+var listing = require('gulp-task-listing'); // https://www.npmjs.com/package/gulp-task-listing
 
 // global configuration object
 // to centralize the configs in
@@ -35,10 +36,33 @@ var config = {
     bowerfiles: 'app/libs/**/*'
 };
 
+
+/*
+* Launch a webserver to serve the development build
+*/
+
+gulp.task('serve', ['bower-html-inject', 'webserver', 'watchers'], function(){
+    util.log(util.colors.bgBlue('Serving Development'));
+});
+
 // https://github.com/schickling/gulp-webserver
 // http://stephenradford.me/gulp-angularjs-and-html5mode/
 gulp.task('webserver', ['dev-settings'], function() {
     gulp.src(config.app)
+        .pipe(webserver({
+            fallback: 'index.html',
+            livereload: true,
+            open: true
+        }));
+});
+
+/*
+* Launch a webserver to serve the production build
+*/
+
+gulp.task('serve-production', ['build'], function() {
+    util.log(util.colors.bgBlue('Serving Production Build'));
+    gulp.src(config.build)
         .pipe(webserver({
             fallback: 'index.html',
             livereload: true,
@@ -179,19 +203,12 @@ gulp.task('production-settings',function(){
 
 
 /*
-* Launch a webserver to serve the production build
+* Lists all available tasks
+* @todo customize list by overring filters
+* By default, is is defined as the regular expression /[-_:]/
+* which means that any task with a hyphen, underscore, or colon in it's name is assumed to be a subtask
 */
+gulp.task('help', listing);
 
-gulp.task('serve', ['build'], function() {
-    util.log(util.colors.bgBlue('Serving Production Build'));
-    gulp.src(config.build)
-        .pipe(webserver({
-            fallback: 'index.html',
-            livereload: true,
-            open: true
-        }));
-});
-
-
-// setting up the default task, that calls an array of tasks
-gulp.task('default', ['bower-html-inject', 'webserver', 'watchers']);
+// setting up the default task, this just calls the help task
+gulp.task('default', ['help']);
