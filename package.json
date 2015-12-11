@@ -4,10 +4,16 @@
   "description": "BoxSyncApp",
   "devDependencies": {
     "gulp": "^3.8.11",
+    "gulp-debug": "^2.1.2",
+    "gulp-if": "^2.0.0",
     "gulp-inject": "^3.0.0",
+    "gulp-jscs": "^3.0.2",
+    "gulp-jshint": "^2.0.0",
     "gulp-util": "^3.0.4",
     "gulp-webserver": "^0.9.0",
-    "wiredep": "^2.2.2"
+    "jshint-stylish": "^2.1.0",
+    "wiredep": "^2.2.2",
+    "yargs": "^3.31.0"
   },
   "repository": {
     "type": "git",
