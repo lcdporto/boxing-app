@@ -19,6 +19,16 @@ Feel free to report issues and contribute with some PullRequests
 
 npm install
 ```
+
+* Install "global" Bower and Gulp  with
+```
+#!shell
+npm install -g bower
+```
+```
+#!shell
+npm install -g gulp
+```
 * Install the APP dependencies with
 ```
 #!shell
