@@ -11,7 +11,7 @@ Feel free to report issues and contribute with some PullRequests
 
 ### Dependencies ###
 
-* node and npm
+* node and npm (dependent on your OS)
 * bower
 * gulp
 
@@ -19,19 +19,31 @@ Feel free to report issues and contribute with some PullRequests
 
 * Clone the repository
 * Make sure you are in the project root folder (i.e. boxing-app)
+* Make sure you have node and npm installed
 * Install Dev dependencies with 
 
 ```
 #!shell
-
 $ npm install
 ```
-* Install the APP dependencies with
+
+* Install Bower and Gulp globally with
+
 ```
 #!shell
+$ npm install -g bower
+```
 
+```
+#!shell
+$ npm install -g gulp
+```
+
+* Install the APP dependencies with
+
+```
+#!shell
 $ bower install
-
 ```
 
 * Open the file dist/angular/development/app.settings.js
@@ -39,8 +51,7 @@ $ bower install
 * Launch the development server with
 
 ```
-#!shellscript
-
+#!shell
 $ gulp serve
 ```
 
