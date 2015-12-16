@@ -8,55 +8,52 @@ Feel free to report issues and contribute with some PullRequests
 
 * The most upfront (with features being tested) branch is the "master" branch
 * The branch currently running into the server is the "production" branch
-* Current version **0.1**
+
+### Dependencies ###
+
+* node and npm (dependent on your OS)
+* bower
+* gulp
 
 ### How do I get set up? ###
 
 * Clone the repository
+* Make sure you are in the project root folder (i.e. boxing-app)
+* Make sure you have node and npm installed
 * Install Dev dependencies with 
-```
-#!shell
 
-npm install
+```
+#!shell
+$ npm install
 ```
 
-* Install "global" Bower and Gulp  with
+* Install Bower and Gulp globally with
+
 ```
 #!shell
-npm install -g bower
+$ npm install -g bower
 ```
+
 ```
 #!shell
-npm install -g gulp
+$ npm install -g gulp
 ```
+
 * Install the APP dependencies with
-```
-#!shell
-
-bower install
-
-```
-
-* Copy the app.settings.js available on the /dist folder to the /app folder
-* If needed tweak the settings to match you setup
 
 ```
 #!shell
-
-cp dist/app.settings.js app/app.settings.js
-
+$ bower install
 ```
 
-* If everything went well, you can run the server with
+* Open the file dist/angular/development/app.settings.js
+* Change the apiUrl property to match your development api url (e.g http://127.0.0.1:8080/)
+* Launch the development server with
 
 ```
-#!shellscript
-
-./gulp
+#!shell
+$ gulp serve
 ```
-
-*
-
 
 ### Contribution guidelines ###
 

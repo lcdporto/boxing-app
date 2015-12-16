@@ -2,11 +2,13 @@
 <html lang="en" ng-app="app">
     <head>
 
+        <!-- build:css css/styles.css -->
         <!-- bower:css -->
         <!-- endbower -->
 
         <!-- inject:css -->
         <!-- endinject -->
+        <!-- endbuild  -->
 
         <!-- cdns -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
@@ -32,13 +34,17 @@
 
         <div ui-view id="page-wrapper" class="md-whiteframe-3dp" flex layout="column"></div>
 
+        <!-- build:js js/libs.js -->
         <!-- inject dependencies defined in bower.json using wiredep and gulp-inject -->
         <!-- bower:js -->
         <!-- endbower -->
+        <!-- endbuild -->
 
+        <!-- build:js js/app.js -->
         <!-- inject our custom code using gulp-inject -->
         <!-- inject:js -->
         <!-- endinject -->
+        <!-- endbuild -->
 
     </body>
 </html>

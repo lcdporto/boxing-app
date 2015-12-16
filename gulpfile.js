@@ -6,7 +6,14 @@ var debug = require('gulp-debug'); // https://www.npmjs.com/package/gulp-debug
 var jshint = require('gulp-jshint'); // https://github.com/spalger/gulp-jshint
 var jscs = require('gulp-jscs'); // https://github.com/jscs-dev/gulp-jscs
 var yargs = require('yargs').argv; // https://www.npmjs.com/package/yargs
-var gulpif = require('gulp-if');
+var gulpif = require('gulp-if'); // https://github.com/robrich/gulp-if
+var annotate = require('gulp-ng-annotate'); // https://www.npmjs.com/package/gulp-ng-annotate
+var filter = require('gulp-filter'); // https://www.npmjs.com/package/gulp-filter
+var uglify = require('gulp-uglify'); // https://github.com/terinjokes/gulp-uglify
+var useref = require('gulp-useref'); // https://www.npmjs.com/package/gulp-useref
+var minify = require('gulp-minify-css'); // https://www.npmjs.com/package/gulp-minify-css
+var imagemin = require('gulp-imagemin'); // https://github.com/sindresorhus/gulp-imagemin
+var listing = require('gulp-task-listing'); // https://www.npmjs.com/package/gulp-task-listing
 
 // global configuration object
 // to centralize the configs in
@@ -14,7 +21,9 @@ var gulpif = require('gulp-if');
 var config = {
     index: 'app/index.html',
     app: 'app/',
+    build: 'build/app/',
     libs: 'app/libs/',
+    images: 'app/images/*.*',
     jsfiles: [
         'app/**/*.module.js',
         'app/**/*.js',
@@ -27,10 +36,33 @@ var config = {
     bowerfiles: 'app/libs/**/*'
 };
 
+
+/*
+* Launch a webserver to serve the development build
+*/
+
+gulp.task('serve', ['bower-html-inject', 'webserver', 'watchers'], function(){
+    util.log(util.colors.bgBlue('Serving Development'));
+});
+
 // https://github.com/schickling/gulp-webserver
 // http://stephenradford.me/gulp-angularjs-and-html5mode/
-gulp.task('webserver', function() {
+gulp.task('webserver', ['dev-settings'], function() {
     gulp.src(config.app)
+        .pipe(webserver({
+            fallback: 'index.html',
+            livereload: true,
+            open: true
+        }));
+});
+
+/*
+* Launch a webserver to serve the production build
+*/
+
+gulp.task('serve-production', ['build'], function() {
+    util.log(util.colors.bgBlue('Serving Production Build'));
+    gulp.src(config.build)
         .pipe(webserver({
             fallback: 'index.html',
             livereload: true,
@@ -120,5 +152,63 @@ gulp.task('code-check', function(){
         .pipe(jshint.reporter('jshint-stylish'), {verbose: true});
 });
 
-// setting up the default task, that calls an array of tasks
-gulp.task('default', ['bower-html-inject', 'webserver', 'watchers']);
+/*
+ * Create a build to prepare the app for production
+ */
+
+gulp.task('build', ['bower-html-inject', 'html-inject', 'images', 'production-settings'], function(){
+    util.log(util.colors.bgBlue('Building App for Production'));
+    return gulp
+        .src('app/**/*.html')
+        .pipe(useref())
+        .pipe(gulpif('*.js', annotate()))
+        .pipe(gulpif('*.js', uglify()))
+        .pipe(gulpif('*.css', minify()))
+        .pipe(gulp.dest(config.build));
+});
+
+/*
+* Compresses images and copies them to the build folder
+*/
+
+gulp.task('images',function(){
+    util.log(util.colors.bgBlue('Compressing and Copying Images to Build Folder'));
+    return gulp
+        .src(config.images)
+        .pipe(imagemin())
+        .pipe(gulp.dest(config.build + 'images'));
+});
+
+/*
+* Copies development settings file to app folder
+*/
+
+gulp.task('dev-settings',function(){
+    util.log(util.colors.bgBlue('Copying Development Settings File'));
+    return gulp
+        .src('dist/angular/development/app.settings.js')
+        .pipe(gulp.dest(config.app));
+});
+
+/*
+* Copies production settings file to app folder
+*/
+
+gulp.task('production-settings',function(){
+    util.log(util.colors.bgBlue('Copying Production Settings File'));
+    return gulp
+        .src('dist/angular/production/app.settings.js')
+        .pipe(gulp.dest(config.app));
+});
+
+
+/*
+* Lists all available tasks
+* @todo customize list by overring filters
+* By default, is is defined as the regular expression /[-_:]/
+* which means that any task with a hyphen, underscore, or colon in it's name is assumed to be a subtask
+*/
+gulp.task('help', listing);
+
+// setting up the default task, this just calls the help task
+gulp.task('default', ['help']);
