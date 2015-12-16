@@ -6,6 +6,6 @@
         .constant('AppSettings', {
             appName: 'Boxing Lab',
             appVersion: 0.1,
-            apiUrl: 'http://192.168.1.219:8080'
+            apiUrl: 'http://api.boxing.audienciazero.local/'
             });
 })();

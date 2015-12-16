@@ -4,11 +4,8 @@ FROM nginx:latest
 # Maintainer Info
 MAINTAINER Ricardo Lobo <ricardolobo@audienciazero.org>
 
-# copy application code and dist folder to /var/www/boxing-app
-COPY app /var/www/boxing-app/app
+# copy application code to /var/www/boxing-app
+COPY build/app /var/www/boxing-app/app
 
 # copy nginx configuration file
 COPY dist/nginx/default.conf /etc/nginx/conf.d/
-
-# copy production angular app settings
-COPY dist/angular/production/app.settings.js /var/www/boxing-app/app/
