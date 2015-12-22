@@ -60,6 +60,22 @@ $ gulp serve
 * Whenever you finish coding something, please try and see if there is conflicts with the most recent version in the branch "master"
 * If possible, try to write tests to fully cover your feature
 
+#### Checking your code ####
+
+* We have implemented linting with jshint and code style checker with jscs, your contributions must pass these checks
+* The jshint rules are defined in .jshintrc, to better understand these rules visit: http://jshint.com/docs/options/
+* The jscs rules are defined in .jscsrc, to better understand these rules visit: http://jscs.info/rules
+* Both rule files are considered work in progress, if you have something to say about them open up an issue
+* To check your code
+
+```
+#!shell
+$ gulp check
+```
+
+* If you think a jshint rule does not make sense in a specific case, you can hide a warning with a snippet of code
+* To that, add the following snippet to your file (/* jshint -W034 */), the -W034 part must match the rule code your trying to hide
+
 ### Who do I talk to? ###
 
 If you have something to say, feel free to contact:
