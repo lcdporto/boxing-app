@@ -147,6 +147,7 @@ gulp.task('code-check', function(){
         .src(config.jsfiles)
         .pipe(gulpif(yargs.debug, debug({title: 'code-check'})))
         .pipe(jscs())
+        .pipe(jscs.reporter())
         .pipe(jshint())
         // stylish reporter https://github.com/sindresorhus/jshint-stylish
         .pipe(jshint.reporter('jshint-stylish'), {verbose: true});
