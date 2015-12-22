@@ -38,8 +38,8 @@ var config = {
 
 
 /*
-* Launch a webserver to serve the development build
-*/
+ * Launch a webserver to serve the development build
+ */
 
 gulp.task('serve', ['bower-html-inject', 'webserver', 'watchers'], function(){
     util.log(util.colors.bgBlue('Serving Development'));
@@ -57,8 +57,8 @@ gulp.task('webserver', ['dev-settings'], function() {
 });
 
 /*
-* Launch a webserver to serve the production build
-*/
+ * Launch a webserver to serve the production build
+ */
 
 gulp.task('serve-production', ['build'], function() {
     util.log(util.colors.bgBlue('Serving Production Build'));
@@ -137,20 +137,25 @@ gulp.task('bower-html-inject', ['html-inject'], function() {
 /*
  * Lints JavaScript code and enforces coding style. Rules are
  * defined in .jshintrc and .jscsrc respectively
- * when used with --debug prints the files that are being piped
- *
+ * @todo implement a run sequence to avoid this ugly hack
  */
 
-gulp.task('code-check', function(){
-    util.log(util.colors.bgBlue('Code check using JSHint and JSCS'))
-        return gulp
+gulp.task('check', ['check-jscs']);
+
+// stylish reporter https://github.com/sindresorhus/jshint-stylish
+gulp.task('check-jshint', function() {
+    return gulp
         .src(config.jsfiles)
-        .pipe(gulpif(yargs.debug, debug({title: 'code-check'})))
-        .pipe(jscs())
-        .pipe(jscs.reporter())
         .pipe(jshint())
-        // stylish reporter https://github.com/sindresorhus/jshint-stylish
         .pipe(jshint.reporter('jshint-stylish'), {verbose: true});
+});
+
+gulp.task('check-jscs', ['check-jshint'], function() {
+    util.log(util.colors.bgBlue('Code check using JSHint and JSCS'));
+    return gulp
+        .src(config.jsfiles)
+        .pipe(jscs())
+        .pipe(jscs.reporter());
 });
 
 /*
@@ -169,8 +174,8 @@ gulp.task('build', ['bower-html-inject', 'html-inject', 'images', 'production-se
 });
 
 /*
-* Compresses images and copies them to the build folder
-*/
+ * Compresses images and copies them to the build folder
+ */
 
 gulp.task('images',function(){
     util.log(util.colors.bgBlue('Compressing and Copying Images to Build Folder'));
@@ -181,8 +186,8 @@ gulp.task('images',function(){
 });
 
 /*
-* Copies development settings file to app folder
-*/
+ * Copies development settings file to app folder
+ */
 
 gulp.task('dev-settings',function(){
     util.log(util.colors.bgBlue('Copying Development Settings File'));
@@ -192,8 +197,8 @@ gulp.task('dev-settings',function(){
 });
 
 /*
-* Copies production settings file to app folder
-*/
+ * Copies production settings file to app folder
+ */
 
 gulp.task('production-settings',function(){
     util.log(util.colors.bgBlue('Copying Production Settings File'));
@@ -204,11 +209,11 @@ gulp.task('production-settings',function(){
 
 
 /*
-* Lists all available tasks
-* @todo customize list by overring filters
-* By default, is is defined as the regular expression /[-_:]/
-* which means that any task with a hyphen, underscore, or colon in it's name is assumed to be a subtask
-*/
+ * Lists all available tasks
+ * @todo customize list by overring filters
+ * By default, is is defined as the regular expression /[-_:]/
+ * which means that any task with a hyphen, underscore, or colon in it's name is assumed to be a subtask
+ */
 gulp.task('help', listing);
 
 // setting up the default task, this just calls the help task
