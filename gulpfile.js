@@ -20,20 +20,20 @@ var listing = require('gulp-task-listing'); // https://www.npmjs.com/package/gul
 // one place
 var config = {
     index: 'app/index.html',
+    root: './',
     app: 'app/',
     build: 'build/app/',
-    libs: 'app/libs/',
+    libs: 'bower_components/',
     images: 'app/images/*.*',
     jsfiles: [
         'app/**/*.module.js',
-        'app/**/*.js',
-        '!app/libs/**/*'
+        'app/**/*.js'
     ],
     cssfiles: [
         'app/*.css'
     ],
     bowerjson: './bower.json',
-    bowerfiles: 'app/libs/**/*'
+    bowerfiles: 'bower_components/**/*'
 };
 
 
@@ -48,9 +48,9 @@ gulp.task('serve', ['bower-html-inject', 'webserver', 'watchers'], function(){
 // https://github.com/schickling/gulp-webserver
 // http://stephenradford.me/gulp-angularjs-and-html5mode/
 gulp.task('webserver', ['dev-settings'], function() {
-    gulp.src(config.app)
+    gulp.src(config.root)
         .pipe(webserver({
-            fallback: 'index.html',
+            fallback: config.index,
             livereload: true,
             open: true
         }));
@@ -106,7 +106,7 @@ gulp.task('html-inject', function() {
         // gulp inject options: https://github.com/klei/gulp-inject#optionsrelative
         // we want the inject to be relative to the target (index.html) and not
         // the current working dir as is the default
-        .pipe(inject(gulp.src(config.jsfiles.concat(config.cssfiles), {read: false}), {relative: true}))
+        .pipe(inject(gulp.src(config.jsfiles.concat(config.cssfiles), {read: false}), {relative: false}))
         .pipe(gulp.dest(config.app));
 });
 
