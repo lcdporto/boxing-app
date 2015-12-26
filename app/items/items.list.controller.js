@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app')
+        .module('app.items')
         .controller('ItemsListController', Controller);
 
     Controller.$inject = ['ItemsService', '$state'];

@@ -2,7 +2,16 @@
     'use strict';
 
     angular
-            .module('app', ['ngMaterial', 'ui.router', 'ngResource', 'satellizer'])
+        .module('app', [
+            'ngMaterial',
+            'ui.router',
+            'ngResource',
+            'satellizer',
+            'app.accounts',
+            'app.containers',
+            'app.items',
+            'app.auth'
+        ])
             .config(function ($stateProvider, $urlRouterProvider, $mdThemingProvider, $resourceProvider, $authProvider, AppSettings, $httpProvider, $provide) {
 
                 $resourceProvider.defaults.stripTrailingSlashes = false;

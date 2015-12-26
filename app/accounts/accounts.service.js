@@ -3,7 +3,7 @@
     'use strict';
     
     angular
-        .module('app')
+        .module('app.accounts')
         .service('AccountsService', Service);
     
     Service.$inject = ['AccountsFactory'];
