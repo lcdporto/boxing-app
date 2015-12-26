@@ -31,7 +31,7 @@
                     })
                     .state('list', {
                         url: "/list",
-                        templateUrl: "pages/list.html",
+                        templateUrl: "pages/items.list.html",
                         controller: 'ItemsListController',
                         controllerAs: 'vm'
                     });
