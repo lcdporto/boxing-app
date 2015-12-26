@@ -34,15 +34,7 @@
                         templateUrl: "pages/list.html",
                         controller: 'ItemsListController',
                         controllerAs: 'vm'
-                    })
-                    .state('items_add', {
-                        url: "/items_add",
-                        templateUrl: "pages/items_add.html",
-                        controller: 'ItemsAddController',
-                        controllerAs: 'vm'
                     });
-
-
 
                 function redirectWhenLoggedOut($q, $injector) {
                     return {
