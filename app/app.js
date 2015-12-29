@@ -7,6 +7,7 @@
             'ui.router',
             'ngResource',
             'satellizer',
+            'app.core',
             'app.accounts',
             'app.containers',
             'app.items',
@@ -21,29 +22,9 @@
                                   .primaryPalette('blue-grey')
                                   .accentPalette('amber');
 
-     //           $scope.test = 'blaldas';
-
                 $authProvider.loginUrl = AppSettings.apiUrl + '/api-token-auth/';
 
                 $urlRouterProvider.otherwise('/auth');
-                $stateProvider
-                    .state('auth', {
-                        url: '/auth',
-                        templateUrl: 'auth/auth.login.view.html',
-                        controller: 'AuthLoginController',
-                        controllerAs: 'vm'
-                    })
-                    .state('logout', {
-                        url: '/logout',
-                        controller: 'AuthLogoutController',
-                        controllerAs: 'vm'
-                    })
-                    .state('list', {
-                        url: "/list",
-                        templateUrl: "pages/items.list.html",
-                        controller: 'ItemsListController',
-                        controllerAs: 'vm'
-                    });
 
                 function redirectWhenLoggedOut($q, $injector) {
                     return {
