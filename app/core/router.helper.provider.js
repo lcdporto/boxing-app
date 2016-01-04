@@ -5,7 +5,7 @@
     .module('app.core')
     .provider('routerHelper', routerHelperProvider);
 
-    routerHelperProvider.$inject = [$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryProvider'];
+    routerHelperProvider.$inject = ['$stateProvider', '$urlRouterProvider', '$urlMatcherFactoryProvider'];
 
     /* @ngInject */
     function routerHelperProvider($stateProvider, $urlRouterProvider, $urlMatcherFactoryProvider) {
