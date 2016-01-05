@@ -9,6 +9,18 @@ Feel free to report issues and contribute with some PullRequests
 * The most upfront (with features being tested) branch is the "master" branch
 * The branch currently running into the server is the "production" branch
 
+## Companion Repo: The API ##
+
+* This angular app requires a functional RESTful API to work with, the API provides all the data
+* You'll find a repo containing the API at https://github.com/lcdporto/boxing-api
+* To make it easier to set up the API we created a Docker Image https://hub.docker.com/r/lcdporto/boxing-api/
+* The angular app expects the API to be located on the localhost port 80, this can be changed at app/core/settings.js
+* Example of creating and running a container
+
+```
+#!shell
+$ docker run -tid --name boxing-api -p 80:80 lcdporto/boxing-api
+```
 ### Dependencies ###
 
 * node and npm (dependent on your OS)
@@ -46,8 +58,8 @@ $ npm install -g gulp
 $ bower install
 ```
 
-* Open the file dist/angular/development/app.settings.js
-* Change the apiUrl property to match your development api url (e.g http://127.0.0.1:8080/)
+* Open the file dist/angular/development/settings.js
+* If need change the apiUrl property to match your development api url (e.g http://127.0.0.1:8080/)
 * Launch the development server with
 
 ```
