@@ -1,7 +1,7 @@
 var gulp = require('gulp');
-var webserver = require('gulp-webserver');
-var inject = require('gulp-inject');
-var util = require('gulp-util');
+var webserver = require('gulp-webserver'); // https://www.npmjs.com/package/gulp-webserver
+var inject = require('gulp-inject'); // https://www.npmjs.com/package/gulp-inject
+var util = require('gulp-util'); // https://www.npmjs.com/package/gulp-util
 var debug = require('gulp-debug'); // https://www.npmjs.com/package/gulp-debug
 var jshint = require('gulp-jshint'); // https://github.com/spalger/gulp-jshint
 var jscs = require('gulp-jscs'); // https://github.com/jscs-dev/gulp-jscs
@@ -14,111 +14,111 @@ var useref = require('gulp-useref'); // https://www.npmjs.com/package/gulp-usere
 var minify = require('gulp-minify-css'); // https://www.npmjs.com/package/gulp-minify-css
 var imagemin = require('gulp-imagemin'); // https://github.com/sindresorhus/gulp-imagemin
 var listing = require('gulp-task-listing'); // https://www.npmjs.com/package/gulp-task-listing
+var templatecache = require('gulp-angular-templatecache'); // https://www.npmjs.com/package/gulp-angular-templatecache
+var htmlmin = require('gulp-htmlmin'); // https://github.com/jonschlinkert/gulp-htmlmin
 
-// global configuration object
-// to centralize the configs in
-// one place
+/**
+ * global configuration object
+ * to centralize the configuration in one place
+ */
 var config = {
-    index: 'app/index.html',
+    index: 'index.html',
     root: './',
-    app: 'app/',
+    core: 'app/core/',
     build: 'build/app/',
     libs: 'bower_components/',
-    images: 'app/images/*.*',
+    images: 'content/images/*.*',
     jsfiles: [
         'app/**/*.module.js',
         'app/**/*.js'
     ],
     cssfiles: [
-        'app/*.css'
+        'content/*.css'
     ],
-    bowerjson: './bower.json',
-    bowerfiles: 'bower_components/**/*'
+    htmlfiles: [
+        'app/**/*.html'
+    ],
+    bowerjson: './bower.json'
 };
 
-
-/*
- * Launch a webserver to serve the development build
+/**
+ * Prepares everything to serve the development build
  */
-
-gulp.task('serve', ['bower-html-inject', 'webserver', 'watchers'], function(){
+gulp.task('serve', ['bower-html-inject', 'webserver', 'watchers'], function() {
     util.log(util.colors.bgBlue('Serving Development'));
 });
 
-// https://github.com/schickling/gulp-webserver
-// http://stephenradford.me/gulp-angularjs-and-html5mode/
+/**
+ * Starts a webserver to launch the development build
+ */
 gulp.task('webserver', ['dev-settings'], function() {
     gulp.src(config.root)
         .pipe(webserver({
+            // https://github.com/schickling/gulp-webserver
+            // http://stephenradford.me/gulp-angularjs-and-html5mode/
             fallback: config.index,
             livereload: true,
             open: true
         }));
 });
 
-/*
+/**
  * Launch a webserver to serve the production build
  */
-
 gulp.task('serve-production', ['build'], function() {
     util.log(util.colors.bgBlue('Serving Production Build'));
     gulp.src(config.build)
         .pipe(webserver({
-            fallback: 'index.html',
+            // https://github.com/schickling/gulp-webserver
+            // http://stephenradford.me/gulp-angularjs-and-html5mode/
+            fallback: config.index,
             livereload: true,
             open: true
         }));
 });
 
-/*
- *  watcher setup
- */
-
-gulp.task('watchers', function(){
-    util.log(util.colors.bgBlue('Setting Up Watchers'));
-    gulp.watch(config.jsfiles.concat(config.cssfiles), ['html-inject']);
-    // we could set up here a watcher for the bower files, but that means the task
-    // will run twice on install, and also none on uninstall since there appears
-    // to be some issues with the watch task and also with the gaze dependency
-    // so we decided to go back and use bower hooks, unfortunately bower does not
-    // have a postuninstall hook, so we are f... well, i've discover that it supports preuninstall
-    // so we are going that route, see the .bowerrc file
-    // gulp.watch(config.bowerfiles, ['bower-inject']);
-});
-
-/*
- *  Read the js and css files from the filesystem
- *  as defined in the config.files array and inject
- *  them in the index.html file using gulp inject
+/**
+ * Watcher setup, watch for changes in js, css and html files
+ * ignore changes to the templates.js file since it is auto-generated
  *
  *  @bug when adding folders gulp might crash, at least in linux
  *  the problem seems to be with gaze, and has no easy solution
  */
+gulp.task('watchers', function(){
+    util.log(util.colors.bgBlue('Setting Up Watchers'));
+    gulp.watch([config.jsfiles, config.cssfiles, config.htmlfiles, '!/app/core/templates.js'], ['html-inject']);
+    // we could set up here a watcher for the bower files, but that means the task
+    // will run twice on install, and none on uninstall since there appears
+    // to be some issues with the watch task and also with the gaze dependency
+    // so we decided to go back and use bower hooks, unfortunately bower does not
+    // have a postuninstall hook, so we are f... well, i've discover that it supports preuninstall
+    // so we are going that route, see the .bowerrc file
+});
 
-gulp.task('html-inject', function() {
+/**
+ *  Read the index.html file and inject css and js files using gulp-inject
+ */
+gulp.task('html-inject', ['templatecache'], function() {
     // gulp util uses chalk, see reference
     // https://github.com/chalk/chalk
     util.log(util.colors.bgBlue('Custom Code HTML Inject'));
     return gulp
-        .src(config.index)
+   .src(config.index)
         // gulp src options: https://github.com/gulpjs/gulp/blob/master/docs/API.md#gulpsrcglobs-options
         // we do not need to read the file content, all we need here are the paths
         // gulp inject options: https://github.com/klei/gulp-inject#optionsrelative
-        // we want the inject to be relative to the target (index.html) and not
-        // the current working dir as is the default
-        .pipe(inject(gulp.src(config.jsfiles.concat(config.cssfiles), {read: false}), {relative: false}))
-        .pipe(gulp.dest(config.app));
+   .pipe(inject(gulp.src(config.jsfiles.concat(config.cssfiles), {read: false}), {relative: false}))
+   .pipe(gulp.dest(config.root));
 });
 
-/*
+/**
  *  Uses Wiredep to read dependencies from bower.json file
  *  and inject them in the index.html file
- *  this task is called by the hooks defined in .bowerrc
- *  we have setup a task dependency on html-inject because
+ *  this task is also called by the hooks defined in .bowerrc
+ *  we have a task dependency on html-inject because
  *  on launch if we have two tasks in parallel injecting in the html
  *  on of them will override the changes made by the other
  */
-
 gulp.task('bower-html-inject', ['html-inject'], function() {
     util.log(util.colors.bgBlue('Bower Dependencies HTML Inject'));
     var wiredep = require('wiredep').stream;
@@ -129,86 +129,104 @@ gulp.task('bower-html-inject', ['html-inject'], function() {
     };
 
     return gulp
-        .src(config.index)
-        .pipe(wiredep(options))
-        .pipe(gulp.dest(config.app));
+   .src(config.index)
+   .pipe(wiredep(options))
+   .pipe(gulp.dest(config.root));
 });
 
-/*
+/**
  * Lints JavaScript code and enforces coding style. Rules are
  * defined in .jshintrc and .jscsrc respectively
  * @todo implement a run sequence to avoid this ugly hack
  */
-
 gulp.task('check', ['check-jscs']);
 
-// stylish reporter https://github.com/sindresorhus/jshint-stylish
+/**
+ * Code linting using jshint
+ */
 gulp.task('check-jshint', function() {
     return gulp
-        .src(config.jsfiles)
-        .pipe(jshint())
-        .pipe(jshint.reporter('jshint-stylish'), {verbose: true});
+   .src(config.jsfiles)
+   .pipe(jshint())
+   .pipe(jshint.reporter('jshint-stylish'), {verbose: true}); // stylish reporter https://github.com/sindresorhus/jshint-stylish
 });
 
+/**
+ * Check code style using jscs
+ */
 gulp.task('check-jscs', ['check-jshint'], function() {
     util.log(util.colors.bgBlue('Code check using JSHint and JSCS'));
     return gulp
-        .src(config.jsfiles)
-        .pipe(jscs())
-        .pipe(jscs.reporter());
+   .src(config.jsfiles)
+   .pipe(jscs())
+   .pipe(jscs.reporter());
 });
 
-/*
- * Create a build to prepare the app for production
+/**
+ * Creates a build to prepare the app for production
+ * reads the index.html and picks the required css and js
+ * files using useref
  */
-
-gulp.task('build', ['bower-html-inject', 'html-inject', 'images', 'production-settings'], function(){
+gulp.task('build', ['bower-html-inject', 'html-inject', 'images', 'production-settings'], function() {
     util.log(util.colors.bgBlue('Building App for Production'));
     return gulp
-        .src('app/**/*.html')
-        .pipe(useref())
-        .pipe(gulpif('*.js', annotate()))
-        .pipe(gulpif('*.js', uglify()))
-        .pipe(gulpif('*.css', minify()))
-        .pipe(gulp.dest(config.build));
+    .src(config.index)
+    .pipe(useref())
+    .pipe(gulpif('*.js', annotate()))
+    .pipe(gulpif('*.js', uglify()))
+    .pipe(gulpif('*.css', minify()))
+    .pipe(gulp.dest(config.build));
 });
 
-/*
+/**
  * Compresses images and copies them to the build folder
  */
-
-gulp.task('images',function(){
+gulp.task('images', function() {
     util.log(util.colors.bgBlue('Compressing and Copying Images to Build Folder'));
     return gulp
-        .src(config.images)
-        .pipe(imagemin())
-        .pipe(gulp.dest(config.build + 'images'));
+   .src(config.images)
+   .pipe(imagemin())
+   .pipe(gulp.dest(config.build + 'images'));
 });
 
-/*
+/**
  * Copies development settings file to app folder
  */
-
 gulp.task('dev-settings',function(){
     util.log(util.colors.bgBlue('Copying Development Settings File'));
     return gulp
-        .src('dist/angular/development/app.settings.js')
-        .pipe(gulp.dest(config.app));
+   .src('dist/angular/development/settings.js')
+   .pipe(gulp.dest(config.core));
 });
 
-/*
+/**
  * Copies production settings file to app folder
  */
-
 gulp.task('production-settings',function(){
     util.log(util.colors.bgBlue('Copying Production Settings File'));
     return gulp
-        .src('dist/angular/production/app.settings.js')
-        .pipe(gulp.dest(config.app));
+   .src('dist/angular/production/settings.js')
+   .pipe(gulp.dest(config.core));
 });
 
+/**
+ * Creates $templateCache from the html templates
+ */
+gulp.task('templatecache', function() {
+    util.log(util.colors.bgBlue('Create an Angular Template Cache'));
+    return gulp
+        .src(config.htmlfiles)
+        // http://perfectionkills.com/experimenting-with-html-minifier/#collapse_whitespace
+        .pipe(htmlmin({collapseWhitespace: true}))
+        .pipe(templatecache('templates.js', {
+            module: 'app.core',
+            standalone: false,
+            root: 'app/'
+        }))
+        .pipe(gulp.dest(config.core));
+});
 
-/*
+/**
  * Lists all available tasks
  * @todo customize list by overring filters
  * By default, is is defined as the regular expression /[-_:]/
@@ -216,5 +234,7 @@ gulp.task('production-settings',function(){
  */
 gulp.task('help', listing);
 
-// setting up the default task, this just calls the help task
+/**
+ * Sets up the default task, this just calls the help task
+ */
 gulp.task('default', ['help']);

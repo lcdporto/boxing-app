@@ -1,5 +1,5 @@
 # ignore linux temp files recursively
 **/*~
 
-# do not copy the settings file to image
-app/app.settings.js
+# do not copy the settings file to the final image
+app/core/settings.js

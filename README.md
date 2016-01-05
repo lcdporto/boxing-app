@@ -76,6 +76,11 @@ $ gulp check
 * If you think a jshint rule does not make sense in a specific case, you can hide a warning with a snippet of code
 * To that, add the following snippet to your file (/* jshint -W034 */), the -W034 part must match the rule code your trying to hide
 
+#### Project Guidelines ####
+
+* We are currently migrating the project to match John Papa's angular-styleguide https://github.com/johnpapa/angular-styleguide
+* Use these guidelines as a reference, if you find something in the code that does not match, correct it or open an issue
+
 ### Who do I talk to? ###
 
 If you have something to say, feel free to contact:
