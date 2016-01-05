@@ -28,6 +28,7 @@ var config = {
     build: 'build/app/',
     libs: 'bower_components/',
     images: 'content/images/*.*',
+    icons: 'content/icons/*',
     jsfiles: [
         'app/**/*.module.js',
         'app/**/*.js'
@@ -167,7 +168,7 @@ gulp.task('check-jscs', ['check-jshint'], function() {
  * reads the index.html and picks the required css and js
  * files using useref
  */
-gulp.task('build', ['bower-html-inject', 'html-inject', 'images', 'production-settings'], function() {
+gulp.task('build', ['bower-html-inject', 'html-inject', 'images', 'icons', 'production-settings'], function() {
     util.log(util.colors.bgBlue('Building App for Production'));
     return gulp
     .src(config.index)
@@ -187,6 +188,17 @@ gulp.task('images', function() {
    .src(config.images)
    .pipe(imagemin())
    .pipe(gulp.dest(config.build + 'images'));
+});
+
+/**
+ * Copies icons to build folder
+ */
+gulp.task('icons', function() {
+    var dest = config.build + 'content/icons';
+    util.log(util.colors.bgBlue('Copying Icons to Build Folder'));
+    return gulp
+        .src(config.icons)
+        .pipe(gulp.dest(dest));
 });
 
 /**
