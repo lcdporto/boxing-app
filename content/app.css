@@ -30,10 +30,9 @@ body{
 }
 
 .header-toolbar > md-icon.search{
-    color: #A9A9A9 !important;
     position: absolute;
     top: 47%;
     transform: translateY(-50%);
     left: 15px;
-    font-size: 30px;
+    opacity: 0.4;
 }

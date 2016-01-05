@@ -9,6 +9,18 @@ Feel free to report issues and contribute with some PullRequests
 * The most upfront (with features being tested) branch is the "master" branch
 * The branch currently running into the server is the "production" branch
 
+## Companion Repo: The API ##
+
+* This angular app requires a functional RESTful API to work with, the API provides all the data
+* You'll find a repo containing the API at https://github.com/lcdporto/boxing-api
+* To make it easier to set up the API we created a Docker Image https://hub.docker.com/r/lcdporto/boxing-api/
+* The angular app expects the API to be located on the localhost port 80, this can be changed at app/core/settings.js
+* Example of creating and running a container
+
+```
+#!shell
+$ docker run -tid --name boxing-api -p 80:80 lcdporto/boxing-api
+```
 ### Dependencies ###
 
 * node and npm (dependent on your OS)
@@ -46,8 +58,8 @@ $ npm install -g gulp
 $ bower install
 ```
 
-* Open the file dist/angular/development/app.settings.js
-* Change the apiUrl property to match your development api url (e.g http://127.0.0.1:8080/)
+* Open the file dist/angular/development/settings.js
+* If need change the apiUrl property to match your development api url (e.g http://127.0.0.1:8080/)
 * Launch the development server with
 
 ```
@@ -75,6 +87,11 @@ $ gulp check
 
 * If you think a jshint rule does not make sense in a specific case, you can hide a warning with a snippet of code
 * To that, add the following snippet to your file (/* jshint -W034 */), the -W034 part must match the rule code your trying to hide
+
+#### Project Guidelines ####
+
+* We are currently migrating the project to match John Papa's angular-styleguide https://github.com/johnpapa/angular-styleguide
+* Use these guidelines as a reference, if you find something in the code that does not match, correct it or open an issue
 
 ### Who do I talk to? ###
 

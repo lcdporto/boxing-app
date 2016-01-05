@@ -1,20 +1,23 @@
-/nbproject/*
-/.idea/*
-# linux temporary files
+# linux and mac temporary files
+*~
 .DS_Store
 
-*~
-
 # emacs temporary files
-
 \#*#\
+
+# netbeans ide et al
+/nbproject/*
+/.idea/*
 
 # node modules and bower components
 node_modules/*
-app/libs/*
+bower_components/*
 
 # project settings
-app/app.settings.js
+app/core/settings.js
+
+# ignore templates.js they are auto-generated
+app/core/templates.js
 
 # build folder
 build/

@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app')
+        .module('app.auth')
         .controller('AuthLogoutController', Controller);
 
     Controller.$inject = ['$rootScope', '$state', '$auth', '$window'];

@@ -2,7 +2,7 @@
     'use strict';
     
     angular
-        .module('app')
+        .module('app.accounts')
         .factory('AccountsFactory', factory);
     
     factory.$inject = ['$resource', 'AppSettings'];

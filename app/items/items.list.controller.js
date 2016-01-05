@@ -2,13 +2,13 @@
     'use strict';
 
     angular
-        .module('app')
+        .module('app.items')
         .controller('ItemsListController', Controller);
 
-    Controller.$inject = ['ItemsService', '$state', '$scope'];
+    Controller.$inject = ['ItemsService', '$state'];
 
     /* @ngInject */
-    function Controller(ItemsService, $state, $scope) {
+    function Controller(ItemsService, $state) {
         var vm = this;
         vm.title = 'Controller';
 
@@ -20,14 +20,5 @@
                     vm.items = data.results;
                 });
         }
-
-        $scope.$watch(function () {
-            return vm.searchText;
-        }, function (current, original) {
-
-            if(angular.lowercase(current) === 'i know the secret and i want to add an object'){
-                $state.go('items_add');
-            }
-        });
     }
 })();

@@ -2,7 +2,7 @@
     'use strict';
     
     angular
-        .module('app')
+        .module('app.items')
         .factory('ItemsFactory', factory);
     
     factory.$inject = ['$resource', 'AppSettings'];
