@@ -42,13 +42,15 @@
                     }
                 }
 
-                $provide.factory('redirectWhenLoggedOut', redirectWhenLoggedOut);
-                $httpProvider.interceptors.push('redirectWhenLoggedOut');
+            $provide.factory('redirectWhenLoggedOut', redirectWhenLoggedOut);
+            $httpProvider.interceptors.push('redirectWhenLoggedOut');
 
-                // setup icon provider
-                // we can register icon and/or iconsets see https://material.angularjs.org/latest/api/service/$mdIconProvider
-                // where to find and download icons https://design.google.com/icons/
-                $mdIconProvider.icon('inbox', 'content/icons/ic_inbox_white_24px.svg', 24)
+            // setup icon provider
+            // we can register icon and/or iconsets see https://material.angularjs.org/latest/api/service/$mdIconProvider
+            // where to find and download icons https://design.google.com/icons/
+            $mdIconProvider
+                .icon('inbox', 'content/icons/ic_inbox_white_48px.svg', 48)
+                .icon('search', 'content/icons/ic_search_black_48px.svg', 48);
 
 
             })
