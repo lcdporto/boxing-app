@@ -108,7 +108,7 @@ gulp.task('html-inject', ['templatecache'], function() {
         // gulp src options: https://github.com/gulpjs/gulp/blob/master/docs/API.md#gulpsrcglobs-options
         // we do not need to read the file content, all we need here are the paths
         // gulp inject options: https://github.com/klei/gulp-inject#optionsrelative
-   .pipe(inject(gulp.src(config.jsfiles.concat(config.cssfiles), {read: false}), {relative: false}))
+        .pipe(inject(gulp.src(config.jsfiles.concat(config.cssfiles), {read: false}), {relative: false, addRootSlash: false}))
    .pipe(gulp.dest(config.root));
 });
 

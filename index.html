@@ -8,7 +8,7 @@
         <!-- endbower -->
 
         <!-- inject:css -->
-        <link rel="stylesheet" href="/content/app.css">
+        <link rel="stylesheet" href="content/app.css">
         <!-- endinject -->
         <!-- endbuild  -->
 
@@ -51,28 +51,31 @@
         <!-- build:js js/app.js -->
         <!-- inject our custom code using gulp-inject -->
         <!-- inject:js -->
-        <script src="/app/app.module.js"></script>
-        <script src="/app/accounts/accounts.module.js"></script>
-        <script src="/app/auth/auth.module.js"></script>
-        <script src="/app/containers/containers.module.js"></script>
-        <script src="/app/core/core.module.js"></script>
-        <script src="/app/items/items.module.js"></script>
-        <script src="/app/accounts/accounts.factory.js"></script>
-        <script src="/app/accounts/accounts.service.js"></script>
-        <script src="/app/auth/auth.login.controller.js"></script>
-        <script src="/app/auth/auth.logout.controller.js"></script>
-        <script src="/app/auth/auth.routes.js"></script>
-        <script src="/app/containers/containers.factory.js"></script>
-        <script src="/app/containers/containers.service.js"></script>
-        <script src="/app/core/router.helper.provider.js"></script>
-        <script src="/app/core/settings.js"></script>
-        <script src="/app/core/templates.js"></script>
-        <script src="/app/items/items.factory.js"></script>
-        <script src="/app/items/items.list.controller.js"></script>
-        <script src="/app/items/items.routes.js"></script>
-        <script src="/app/items/items.service.js"></script>
+        <script src="app/app.module.js"></script>
+        <script src="app/accounts/accounts.module.js"></script>
+        <script src="app/auth/auth.module.js"></script>
+        <script src="app/containers/containers.module.js"></script>
+        <script src="app/core/core.module.js"></script>
+        <script src="app/items/items.module.js"></script>
+        <script src="app/accounts/accounts.factory.js"></script>
+        <script src="app/accounts/accounts.service.js"></script>
+        <script src="app/auth/auth.login.controller.js"></script>
+        <script src="app/auth/auth.logout.controller.js"></script>
+        <script src="app/auth/auth.routes.js"></script>
+        <script src="app/containers/containers.factory.js"></script>
+        <script src="app/containers/containers.service.js"></script>
+        <script src="app/core/router.helper.provider.js"></script>
+        <script src="app/core/settings.js"></script>
+        <script src="app/core/templates.js"></script>
+        <script src="app/items/items.factory.js"></script>
+        <script src="app/items/items.list.controller.js"></script>
+        <script src="app/items/items.routes.js"></script>
+        <script src="app/items/items.service.js"></script>
         <!-- endinject -->
         <!-- endbuild -->
 
+        <!-- by default a base is required when html5Mode is enabled -->
+        <!-- https://docs.angularjs.org/error/$location/nobase  -->
+        <base href="/">
     </body>
 </html>
