@@ -16,31 +16,7 @@ var imagemin = require('gulp-imagemin'); // https://github.com/sindresorhus/gulp
 var listing = require('gulp-task-listing'); // https://www.npmjs.com/package/gulp-task-listing
 var templatecache = require('gulp-angular-templatecache'); // https://www.npmjs.com/package/gulp-angular-templatecache
 var htmlmin = require('gulp-htmlmin'); // https://github.com/jonschlinkert/gulp-htmlmin
-
-/**
- * global configuration object
- * to centralize the configuration in one place
- */
-var config = {
-    index: 'index.html',
-    root: './',
-    core: 'app/core/',
-    build: 'build/app/',
-    libs: 'bower_components/',
-    images: 'content/images/*.*',
-    icons: 'content/icons/*',
-    jsfiles: [
-        'app/**/*.module.js',
-        'app/**/*.js'
-    ],
-    cssfiles: [
-        'content/*.css'
-    ],
-    htmlfiles: [
-        'app/**/*.html'
-    ],
-    bowerjson: './bower.json'
-};
+var config = require('./gulp.config.js');
 
 /**
  * Prepares everything to serve the development build
