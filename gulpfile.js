@@ -75,26 +75,26 @@ gulp.task('watchers', function(){
 
 /*
  * Injects css and js files in index.html file
-*/
+ */
 gulp.task('inject', function(){
     return runsequence('bower-html-inject', 'html-inject');
 })
 
-/**
- *  Read the index.html file and inject css and js files using gulp-inject
- */
-gulp.task('html-inject', ['templatecache'], function() {
-    // gulp util uses chalk, see reference
-    // https://github.com/chalk/chalk
-    util.log(util.colors.bgBlue('Custom Code HTML Inject'));
-    return gulp
+    /**
+     *  Read the index.html file and inject css and js files using gulp-inject
+     */
+    gulp.task('html-inject', ['templatecache'], function() {
+        // gulp util uses chalk, see reference
+        // https://github.com/chalk/chalk
+        util.log(util.colors.bgBlue('Custom Code HTML Inject'));
+        return gulp
    .src(config.index)
-        // gulp src options: https://github.com/gulpjs/gulp/blob/master/docs/API.md#gulpsrcglobs-options
-        // we do not need to read the file content, all we need here are the paths
-        // gulp inject options: https://github.com/klei/gulp-inject#optionsrelative
-        .pipe(inject(gulp.src(config.jsfiles.concat(config.cssfiles), {read: false}), {relative: false, addRootSlash: false}))
+            // gulp src options: https://github.com/gulpjs/gulp/blob/master/docs/API.md#gulpsrcglobs-options
+            // we do not need to read the file content, all we need here are the paths
+            // gulp inject options: https://github.com/klei/gulp-inject#optionsrelative
+   .pipe(inject(gulp.src(config.jsfiles.concat(config.cssfiles), {read: false}), {relative: false, addRootSlash: false}))
    .pipe(gulp.dest(config.root));
-});
+    });
 
 /**
  *  Uses Wiredep to read dependencies from bower.json file
@@ -159,6 +159,9 @@ gulp.task('build', ['inject', 'images', 'icons', 'production-settings'], functio
     .pipe(gulpif('*.js', annotate()))
     .pipe(gulpif('*.js', uglify()))
     .pipe(gulpif('*.css', minify()))
+    // the index.html minification step must be the last one since the useref plugin
+    // depends on the comments to know where to find and inject files
+    .pipe(gulpif('index.html', htmlmin({collapseWhitespace: true, removeComments: true})))
     .pipe(gulp.dest(config.build));
 });
 
