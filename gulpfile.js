@@ -17,6 +17,7 @@ var listing = require('gulp-task-listing'); // https://www.npmjs.com/package/gul
 var templatecache = require('gulp-angular-templatecache'); // https://www.npmjs.com/package/gulp-angular-templatecache
 var htmlmin = require('gulp-htmlmin'); // https://github.com/jonschlinkert/gulp-htmlmin
 var config = require('./gulp.config.js');
+var runsequence = require('run-sequence'); // https://www.npmjs.com/package/run-sequence
 
 /**
  * Prepares everything to serve the development build
@@ -114,14 +115,16 @@ gulp.task('bower-html-inject', ['html-inject'], function() {
 /**
  * Lints JavaScript code and enforces coding style. Rules are
  * defined in .jshintrc and .jscsrc respectively
- * @todo implement a run sequence to avoid this ugly hack
  */
-gulp.task('check', ['check-jscs']);
+gulp.task('check', function(){
+    runsequence('check-jshint', 'check-jscs');
+});
 
 /**
  * Code linting using jshint
  */
 gulp.task('check-jshint', function() {
+    util.log(util.colors.bgBlue('Code check using JSHint'));
     return gulp
    .src(config.jsfiles)
    .pipe(jshint())
@@ -131,8 +134,8 @@ gulp.task('check-jshint', function() {
 /**
  * Check code style using jscs
  */
-gulp.task('check-jscs', ['check-jshint'], function() {
-    util.log(util.colors.bgBlue('Code check using JSHint and JSCS'));
+gulp.task('check-jscs', function() {
+    util.log(util.colors.bgBlue('Code check using JSCS'));
     return gulp
    .src(config.jsfiles)
    .pipe(jscs())
