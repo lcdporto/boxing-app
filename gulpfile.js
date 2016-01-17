@@ -22,7 +22,7 @@ var runsequence = require('run-sequence'); // https://www.npmjs.com/package/run-
 /**
  * Prepares everything to serve the development build
  */
-gulp.task('serve', ['bower-html-inject', 'webserver', 'watchers'], function() {
+gulp.task('serve', ['inject', 'webserver', 'watchers'], function() {
     util.log(util.colors.bgBlue('Serving Development'));
 });
 
@@ -73,6 +73,13 @@ gulp.task('watchers', function(){
     // so we are going that route, see the .bowerrc file
 });
 
+/*
+ * Injects css and js files in index.html file
+*/
+gulp.task('inject', function(){
+    return runsequence('bower-html-inject', 'html-inject');
+})
+
 /**
  *  Read the index.html file and inject css and js files using gulp-inject
  */
@@ -93,11 +100,8 @@ gulp.task('html-inject', ['templatecache'], function() {
  *  Uses Wiredep to read dependencies from bower.json file
  *  and inject them in the index.html file
  *  this task is also called by the hooks defined in .bowerrc
- *  we have a task dependency on html-inject because
- *  on launch if we have two tasks in parallel injecting in the html
- *  on of them will override the changes made by the other
  */
-gulp.task('bower-html-inject', ['html-inject'], function() {
+gulp.task('bower-html-inject', function() {
     util.log(util.colors.bgBlue('Bower Dependencies HTML Inject'));
     var wiredep = require('wiredep').stream;
 
@@ -147,7 +151,7 @@ gulp.task('check-jscs', function() {
  * reads the index.html and picks the required css and js
  * files using useref
  */
-gulp.task('build', ['bower-html-inject', 'html-inject', 'images', 'icons', 'production-settings'], function() {
+gulp.task('build', ['inject', 'images', 'icons', 'production-settings'], function() {
     util.log(util.colors.bgBlue('Building App for Production'));
     return gulp
     .src(config.index)
