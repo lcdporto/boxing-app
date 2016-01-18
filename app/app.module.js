@@ -29,7 +29,7 @@
                               .primaryPalette('blue-grey')
                               .accentPalette('amber');
 
-            $authProvider.loginUrl = AppSettings.apiUrl + '/api-token-auth/';
+            $authProvider.loginUrl = AppSettings.apiUrl + 'api-token-auth/';
 
             $urlRouterProvider.otherwise('/auth');
 
