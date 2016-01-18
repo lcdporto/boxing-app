@@ -1,12 +1,12 @@
 (function() {
     'use strict';
-    
+
     angular
         .module('app.containers')
         .service('ContainersService', Service);
-    
+
     Service.$inject = ['$http', 'ContainersFactory'];
-    
+
     /* @ngInject */
     function Service($http, ContainersFactory) {
         this.getContainerByUrl = getContainerByUrl;
@@ -24,7 +24,7 @@
             return ContainersFactory.query();
         }
 
-        function get(id){
+        function get(id) {
             return ContainersFactory.get({id:id}).$promise;
         }
     }
