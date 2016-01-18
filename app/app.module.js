@@ -13,7 +13,15 @@
             'app.items',
             'app.auth'
         ])
-        .config(function ($stateProvider, $urlRouterProvider, $mdThemingProvider, $resourceProvider, $authProvider, AppSettings, $httpProvider, $provide, $mdIconProvider) {
+        .config(function (
+            $urlRouterProvider,
+            $mdThemingProvider,
+            $resourceProvider,
+            $authProvider,
+            AppSettings,
+            $httpProvider,
+            $provide,
+            $mdIconProvider) {
 
                 $resourceProvider.defaults.stripTrailingSlashes = false;
 
@@ -31,22 +39,25 @@
 
                         responseError: function(rejection) {
                             var $state = $injector.get('$state');
-
-                            if(typeof rejection.data.detail != 'undefined' && rejection.data.detail == 'Authentication credentials were not provided.' && $state.current.name != 'auth'){
+                            // the string the api returns when a request has been made without
+                            // passing the credentials, in this case email and password
+                            var msg = 'Authentication credentials were not provided.';
+                            if(rejection.data.detail === msg && $state.current.name !== 'auth'){
                                 localStorage.removeItem('user');
                                 $state.go('auth');
                             }
 
                             return $q.reject(rejection);
                         }
-                    }
+                    };
                 }
 
             $provide.factory('redirectWhenLoggedOut', redirectWhenLoggedOut);
             $httpProvider.interceptors.push('redirectWhenLoggedOut');
 
             // setup icon provider
-            // we can register icon and/or iconsets see https://material.angularjs.org/latest/api/service/$mdIconProvider
+            // we can register icon and/or iconsets
+            // see https://material.angularjs.org/latest/api/service/$mdIconProvider
             // where to find and download icons https://design.google.com/icons/
             $mdIconProvider
                 .icon('inbox', 'content/icons/ic_inbox_white_48px.svg', 48)
@@ -64,7 +75,7 @@
 
                 if(user) {
                     $rootScope.authenticated = user;
-                    if(toState.name === "auth") {
+                    if(toState.name === 'auth') {
                         event.preventDefault();
                         $state.go('list');
                     }

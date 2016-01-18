@@ -130,7 +130,7 @@ gulp.task('check', function(){
 gulp.task('check-jshint', function() {
     util.log(util.colors.bgBlue('Code check using JSHint'));
     return gulp
-   .src(config.jsfiles)
+   .src(config.checkfiles)
    .pipe(jshint())
    .pipe(jshint.reporter('jshint-stylish'), {verbose: true}); // stylish reporter https://github.com/sindresorhus/jshint-stylish
 });

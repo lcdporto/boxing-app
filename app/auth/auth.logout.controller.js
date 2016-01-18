@@ -5,10 +5,10 @@
         .module('app.auth')
         .controller('AuthLogoutController', Controller);
 
-    Controller.$inject = ['$rootScope', '$state', '$auth', '$window'];
+    Controller.$inject = ['$rootScope', '$state', '$auth'];
 
     /* @ngInject */
-    function Controller($rootScope, $state, $auth, $window) {
+    function Controller($rootScope, $state, $auth) {
         var vm = this;
         vm.title = 'Logout';
         vm.logout = logout;

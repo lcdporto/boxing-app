@@ -17,7 +17,7 @@
             return $http({
                 method: 'GET',
                 url: url
-            })
+            });
         }
 
         function all() {

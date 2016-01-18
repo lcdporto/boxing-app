@@ -5,7 +5,7 @@
         .module('app.items')
         .run(appRun);
 
-    appRun.$inject = ['routerHelper']
+    appRun.$inject = ['routerHelper'];
 
     function appRun(routerHelper) {
         routerHelper.configureStates(getStates());
@@ -16,8 +16,8 @@
             {
                 state: 'list',
                 config: {
-                    url: "/list",
-                    templateUrl: "app/items/items.list.html",
+                    url: '/list',
+                    templateUrl: 'app/items/items.list.html',
                     controller: 'ItemsListController',
                     controllerAs: 'vm'
                 }

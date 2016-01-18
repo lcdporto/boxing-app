@@ -5,10 +5,10 @@
         .module('app.items')
         .controller('ItemsListController', Controller);
 
-    Controller.$inject = ['ItemsService', '$state'];
+    Controller.$inject = ['ItemsService'];
 
     /* @ngInject */
-    function Controller(ItemsService, $state) {
+    function Controller(ItemsService) {
         var vm = this;
         vm.title = 'Controller';
 
