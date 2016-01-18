@@ -21,5 +21,12 @@ module.exports = {
     htmlfiles: [
         'app/**/*.html'
     ],
+    checkfiles: [
+        'app/**/*.module.js',
+        'app/**/*.js',
+        // do not check this generated file
+        '!app/core/templates.js'
+        // @todo add gulpfile and test files
+    ],
     bowerjson: './bower.json'
 };
