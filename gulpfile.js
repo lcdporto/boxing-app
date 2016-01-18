@@ -174,7 +174,6 @@ var JSCSBeepReporter = function () {
         if (!file.jscs.success) {
             util.beep();
         }
-        action(file);
     });
 };
 
