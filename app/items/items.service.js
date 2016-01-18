@@ -28,7 +28,7 @@
                     requests.push(request);
                 });
                 return $q.all(requests);
-            })
+            });
         }
     }
 })();

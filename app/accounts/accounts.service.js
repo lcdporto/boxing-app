@@ -14,7 +14,7 @@
         this.get = get;
 
         function all() {
-            return AccountsFactory.query()
+            return AccountsFactory.query();
         }
 
         function get(id){

@@ -29,13 +29,13 @@
             var credentials = {
                 email: vm.email,
                 password: vm.password
-            }
+            };
 
 
             $auth.login(credentials).then(function(data) {
                 return AccountsService.get((decodeJWTToken(data.data.token)).user_id);
             }, function(error){
-
+                console.log(error);
             }).then(function(response){
                 console.log(response);
                 console.log(response.email);

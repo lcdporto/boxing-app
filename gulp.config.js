@@ -29,4 +29,5 @@ module.exports = {
         // @todo add gulpfile and test files
     ],
     bowerjson: './bower.json'
+
 };
