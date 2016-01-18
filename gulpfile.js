@@ -5,6 +5,7 @@ var util = require('gulp-util'); // https://www.npmjs.com/package/gulp-util
 var debug = require('gulp-debug'); // https://www.npmjs.com/package/gulp-debug
 var jshint = require('gulp-jshint'); // https://github.com/spalger/gulp-jshint
 var jscs = require('gulp-jscs'); // https://github.com/jscs-dev/gulp-jscs
+var map = require('map-stream'); // https://github.com/dominictarr/map-stream
 var yargs = require('yargs').argv; // https://www.npmjs.com/package/yargs
 var gulpif = require('gulp-if'); // https://github.com/robrich/gulp-if
 var annotate = require('gulp-ng-annotate'); // https://www.npmjs.com/package/gulp-ng-annotate
@@ -65,6 +66,7 @@ gulp.task('serve-production', ['build'], function() {
 gulp.task('watchers', function(){
     util.log(util.colors.bgBlue('Setting Up Watchers'));
     gulp.watch([config.jsfiles, config.cssfiles, config.htmlfiles, '!/app/core/templates.js'], ['html-inject']);
+    gulp.watch([config.checkfiles], ['check']);
     // we could set up here a watcher for the bower files, but that means the task
     // will run twice on install, and none on uninstall since there appears
     // to be some issues with the watch task and also with the gaze dependency
@@ -78,23 +80,23 @@ gulp.task('watchers', function(){
  */
 gulp.task('inject', function(){
     return runsequence('bower-html-inject', 'html-inject');
-})
+});
 
-    /**
-     *  Read the index.html file and inject css and js files using gulp-inject
-     */
-    gulp.task('html-inject', ['templatecache'], function() {
-        // gulp util uses chalk, see reference
-        // https://github.com/chalk/chalk
-        util.log(util.colors.bgBlue('Custom Code HTML Inject'));
-        return gulp
-   .src(config.index)
-            // gulp src options: https://github.com/gulpjs/gulp/blob/master/docs/API.md#gulpsrcglobs-options
-            // we do not need to read the file content, all we need here are the paths
-            // gulp inject options: https://github.com/klei/gulp-inject#optionsrelative
-   .pipe(inject(gulp.src(config.jsfiles.concat(config.cssfiles), {read: false}), {relative: false, addRootSlash: false}))
-   .pipe(gulp.dest(config.root));
-    });
+/**
+ *  Read the index.html file and inject css and js files using gulp-inject
+ */
+gulp.task('html-inject', ['templatecache'], function() {
+    // gulp util uses chalk, see reference
+    // https://github.com/chalk/chalk
+    util.log(util.colors.bgBlue('Custom Code HTML Inject'));
+    return gulp
+.src(config.index)
+        // gulp src options: https://github.com/gulpjs/gulp/blob/master/docs/API.md#gulpsrcglobs-options
+        // we do not need to read the file content, all we need here are the paths
+        // gulp inject options: https://github.com/klei/gulp-inject#optionsrelative
+.pipe(inject(gulp.src(config.jsfiles.concat(config.cssfiles), {read: false}), {relative: false, addRootSlash: false}))
+.pipe(gulp.dest(config.root));
+});
 
 /**
  *  Uses Wiredep to read dependencies from bower.json file
@@ -132,8 +134,23 @@ gulp.task('check-jshint', function() {
     return gulp
    .src(config.checkfiles)
    .pipe(jshint())
-   .pipe(jshint.reporter('jshint-stylish'), {verbose: true}); // stylish reporter https://github.com/sindresorhus/jshint-stylish
+   .pipe(jshint.reporter('jshint-stylish'), {verbose: true}) //stylish reporter https://github.com/sindresorhus/jshint-stylish
+   .pipe(JSHintBeepReporter());
 });
+
+/**
+ * Custom jshint reporterer
+ *
+ * This will beep to warn about jshint fails
+ */
+var JSHintBeepReporter = function(file, cb) {
+    return map(function (file, cb) {
+        if (!file.jshint.success) {
+            util.beep();
+        }
+        cb(null, file);
+    })
+};
 
 /**
  * Check code style using jscs
@@ -143,8 +160,23 @@ gulp.task('check-jscs', function() {
     return gulp
    .src(config.jsfiles)
    .pipe(jscs())
-   .pipe(jscs.reporter());
+   .pipe(jscs.reporter())
+   .pipe(JSCSBeepReporter());
 });
+
+/**
+ * Custom jscs reporterer
+ *
+ * This will beep to warn about jscs fails
+ */
+var JSCSBeepReporter = function () {
+    return map(function (file) {
+        if (!file.jscs.success) {
+            util.beep();
+        }
+        action(file);
+    });
+};
 
 /**
  * Creates a build to prepare the app for production
