@@ -63,9 +63,14 @@ gulp.task('serve-production', ['build'], function() {
  *  @bug when adding folders gulp might crash, at least in linux
  *  the problem seems to be with gaze, and has no easy solution
  */
-gulp.task('watchers', function(){
+gulp.task('watchers', function() {
     util.log(util.colors.bgBlue('Setting Up Watchers'));
-    gulp.watch([config.jsfiles, config.cssfiles, config.htmlfiles, '!/app/core/templates.js'], ['html-inject']);
+    gulp.watch([
+        config.jsfiles,
+        config.cssfiles,
+        config.htmlfiles,
+        '!/app/core/templates.js'
+    ], ['html-inject']);
     gulp.watch([config.checkfiles], ['check']);
     // we could set up here a watcher for the bower files, but that means the task
     // will run twice on install, and none on uninstall since there appears
@@ -78,7 +83,7 @@ gulp.task('watchers', function(){
 /*
  * Injects css and js files in index.html file
  */
-gulp.task('inject', function(){
+gulp.task('inject', function() {
     return runsequence('bower-html-inject', 'html-inject');
 });
 
@@ -94,7 +99,12 @@ gulp.task('html-inject', ['templatecache'], function() {
         // gulp src options: https://github.com/gulpjs/gulp/blob/master/docs/API.md#gulpsrcglobs-options
         // we do not need to read the file content, all we need here are the paths
         // gulp inject options: https://github.com/klei/gulp-inject#optionsrelative
-.pipe(inject(gulp.src(config.jsfiles.concat(config.cssfiles), {read: false}), {relative: false, addRootSlash: false}))
+.pipe(inject(gulp.src(config.jsfiles.concat(config.cssfiles), {
+            read: false
+        }), {
+            relative: false,
+            addRootSlash: false
+        }))
 .pipe(gulp.dest(config.root));
 });
 
@@ -122,7 +132,7 @@ gulp.task('bower-html-inject', function() {
  * Lints JavaScript code and enforces coding style. Rules are
  * defined in .jshintrc and .jscsrc respectively
  */
-gulp.task('check', function(){
+gulp.task('check', function() {
     runsequence('check-jshint', 'check-jscs');
 });
 
@@ -221,7 +231,7 @@ gulp.task('icons', function() {
 /**
  * Copies development settings file to app folder
  */
-gulp.task('dev-settings',function(){
+gulp.task('dev-settings',function() {
     util.log(util.colors.bgBlue('Copying Development Settings File'));
     return gulp
    .src('dist/angular/development/settings.js')
@@ -231,7 +241,7 @@ gulp.task('dev-settings',function(){
 /**
  * Copies production settings file to app folder
  */
-gulp.task('production-settings',function(){
+gulp.task('production-settings',function() {
     util.log(util.colors.bgBlue('Copying Production Settings File'));
     return gulp
    .src('dist/angular/production/settings.js')
