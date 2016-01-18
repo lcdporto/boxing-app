@@ -16,36 +16,13 @@ var imagemin = require('gulp-imagemin'); // https://github.com/sindresorhus/gulp
 var listing = require('gulp-task-listing'); // https://www.npmjs.com/package/gulp-task-listing
 var templatecache = require('gulp-angular-templatecache'); // https://www.npmjs.com/package/gulp-angular-templatecache
 var htmlmin = require('gulp-htmlmin'); // https://github.com/jonschlinkert/gulp-htmlmin
-
-/**
- * global configuration object
- * to centralize the configuration in one place
- */
-var config = {
-    index: 'index.html',
-    root: './',
-    core: 'app/core/',
-    build: 'build/app/',
-    libs: 'bower_components/',
-    images: 'content/images/*.*',
-    icons: 'content/icons/*',
-    jsfiles: [
-        'app/**/*.module.js',
-        'app/**/*.js'
-    ],
-    cssfiles: [
-        'content/*.css'
-    ],
-    htmlfiles: [
-        'app/**/*.html'
-    ],
-    bowerjson: './bower.json'
-};
+var config = require('./gulp.config.js');
+var runsequence = require('run-sequence'); // https://www.npmjs.com/package/run-sequence
 
 /**
  * Prepares everything to serve the development build
  */
-gulp.task('serve', ['bower-html-inject', 'webserver', 'watchers'], function() {
+gulp.task('serve', ['inject', 'webserver', 'watchers'], function() {
     util.log(util.colors.bgBlue('Serving Development'));
 });
 
@@ -96,31 +73,35 @@ gulp.task('watchers', function(){
     // so we are going that route, see the .bowerrc file
 });
 
-/**
- *  Read the index.html file and inject css and js files using gulp-inject
+/*
+ * Injects css and js files in index.html file
  */
-gulp.task('html-inject', ['templatecache'], function() {
-    // gulp util uses chalk, see reference
-    // https://github.com/chalk/chalk
-    util.log(util.colors.bgBlue('Custom Code HTML Inject'));
-    return gulp
+gulp.task('inject', function(){
+    return runsequence('bower-html-inject', 'html-inject');
+})
+
+    /**
+     *  Read the index.html file and inject css and js files using gulp-inject
+     */
+    gulp.task('html-inject', ['templatecache'], function() {
+        // gulp util uses chalk, see reference
+        // https://github.com/chalk/chalk
+        util.log(util.colors.bgBlue('Custom Code HTML Inject'));
+        return gulp
    .src(config.index)
-        // gulp src options: https://github.com/gulpjs/gulp/blob/master/docs/API.md#gulpsrcglobs-options
-        // we do not need to read the file content, all we need here are the paths
-        // gulp inject options: https://github.com/klei/gulp-inject#optionsrelative
-        .pipe(inject(gulp.src(config.jsfiles.concat(config.cssfiles), {read: false}), {relative: false, addRootSlash: false}))
+            // gulp src options: https://github.com/gulpjs/gulp/blob/master/docs/API.md#gulpsrcglobs-options
+            // we do not need to read the file content, all we need here are the paths
+            // gulp inject options: https://github.com/klei/gulp-inject#optionsrelative
+   .pipe(inject(gulp.src(config.jsfiles.concat(config.cssfiles), {read: false}), {relative: false, addRootSlash: false}))
    .pipe(gulp.dest(config.root));
-});
+    });
 
 /**
  *  Uses Wiredep to read dependencies from bower.json file
  *  and inject them in the index.html file
  *  this task is also called by the hooks defined in .bowerrc
- *  we have a task dependency on html-inject because
- *  on launch if we have two tasks in parallel injecting in the html
- *  on of them will override the changes made by the other
  */
-gulp.task('bower-html-inject', ['html-inject'], function() {
+gulp.task('bower-html-inject', function() {
     util.log(util.colors.bgBlue('Bower Dependencies HTML Inject'));
     var wiredep = require('wiredep').stream;
 
@@ -138,14 +119,16 @@ gulp.task('bower-html-inject', ['html-inject'], function() {
 /**
  * Lints JavaScript code and enforces coding style. Rules are
  * defined in .jshintrc and .jscsrc respectively
- * @todo implement a run sequence to avoid this ugly hack
  */
-gulp.task('check', ['check-jscs']);
+gulp.task('check', function(){
+    runsequence('check-jshint', 'check-jscs');
+});
 
 /**
  * Code linting using jshint
  */
 gulp.task('check-jshint', function() {
+    util.log(util.colors.bgBlue('Code check using JSHint'));
     return gulp
    .src(config.jsfiles)
    .pipe(jshint())
@@ -155,8 +138,8 @@ gulp.task('check-jshint', function() {
 /**
  * Check code style using jscs
  */
-gulp.task('check-jscs', ['check-jshint'], function() {
-    util.log(util.colors.bgBlue('Code check using JSHint and JSCS'));
+gulp.task('check-jscs', function() {
+    util.log(util.colors.bgBlue('Code check using JSCS'));
     return gulp
    .src(config.jsfiles)
    .pipe(jscs())
@@ -168,7 +151,7 @@ gulp.task('check-jscs', ['check-jshint'], function() {
  * reads the index.html and picks the required css and js
  * files using useref
  */
-gulp.task('build', ['bower-html-inject', 'html-inject', 'images', 'icons', 'production-settings'], function() {
+gulp.task('build', ['inject', 'images', 'icons', 'production-settings'], function() {
     util.log(util.colors.bgBlue('Building App for Production'));
     return gulp
     .src(config.index)
@@ -176,6 +159,9 @@ gulp.task('build', ['bower-html-inject', 'html-inject', 'images', 'icons', 'prod
     .pipe(gulpif('*.js', annotate()))
     .pipe(gulpif('*.js', uglify()))
     .pipe(gulpif('*.css', minify()))
+    // the index.html minification step must be the last one since the useref plugin
+    // depends on the comments to know where to find and inject files
+    .pipe(gulpif('index.html', htmlmin({collapseWhitespace: true, removeComments: true})))
     .pipe(gulp.dest(config.build));
 });
 
