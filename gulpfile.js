@@ -158,7 +158,7 @@ var JSHintBeepReporter = function(file, cb) {
 gulp.task('check-jscs', function() {
     util.log(util.colors.bgBlue('Code check using JSCS'));
     return gulp
-   .src(config.jsfiles)
+   .src(config.checkfiles)
    .pipe(jscs())
    .pipe(jscs.reporter())
    .pipe(JSCSBeepReporter());
@@ -174,7 +174,6 @@ var JSCSBeepReporter = function () {
         if (!file.jscs.success) {
             util.beep();
         }
-        action(file);
     });
 };
 

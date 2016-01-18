@@ -23,34 +23,33 @@
             $provide,
             $mdIconProvider) {
 
-                $resourceProvider.defaults.stripTrailingSlashes = false;
+            $resourceProvider.defaults.stripTrailingSlashes = false;
 
+            $mdThemingProvider.theme('default')
+                              .primaryPalette('blue-grey')
+                              .accentPalette('amber');
 
-                $mdThemingProvider.theme('default')
-                                  .primaryPalette('blue-grey')
-                                  .accentPalette('amber');
+            $authProvider.loginUrl = AppSettings.apiUrl + '/api-token-auth/';
 
-                $authProvider.loginUrl = AppSettings.apiUrl + '/api-token-auth/';
+            $urlRouterProvider.otherwise('/auth');
 
-                $urlRouterProvider.otherwise('/auth');
+            function redirectWhenLoggedOut($q, $injector) {
+                return {
 
-                function redirectWhenLoggedOut($q, $injector) {
-                    return {
-
-                        responseError: function(rejection) {
-                            var $state = $injector.get('$state');
-                            // the string the api returns when a request has been made without
-                            // passing the credentials, in this case email and password
-                            var msg = 'Authentication credentials were not provided.';
-                            if(rejection.data.detail === msg && $state.current.name !== 'auth'){
-                                localStorage.removeItem('user');
-                                $state.go('auth');
-                            }
-
-                            return $q.reject(rejection);
+                    responseError: function(rejection) {
+                        var $state = $injector.get('$state');
+                        // the string the api returns when a request has been made without
+                        // passing the credentials, in this case email and password
+                        var msg = 'Authentication credentials were not provided.';
+                        if (rejection.data.detail === msg && $state.current.name !== 'auth') {
+                            localStorage.removeItem('user');
+                            $state.go('auth');
                         }
-                    };
-                }
+
+                        return $q.reject(rejection);
+                    }
+                };
+            }
 
             $provide.factory('redirectWhenLoggedOut', redirectWhenLoggedOut);
             $httpProvider.interceptors.push('redirectWhenLoggedOut');
@@ -62,10 +61,7 @@
             $mdIconProvider
                 .icon('inbox', 'content/icons/ic_inbox_white_48px.svg', 48)
                 .icon('search', 'content/icons/ic_search_black_48px.svg', 48);
-
-
-            })
-
+        })
 
         .run(function($rootScope, $state) {
 
@@ -73,14 +69,13 @@
 
                 var user = JSON.parse(localStorage.getItem('user'));
 
-                if(user) {
+                if (user) {
                     $rootScope.authenticated = user;
-                    if(toState.name === 'auth') {
+                    if (toState.name === 'auth') {
                         event.preventDefault();
                         $state.go('list');
                     }
                 }
             });
         });
-
 })();
