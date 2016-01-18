@@ -7,5 +7,5 @@
             appName: 'Boxing Lab',
             appVersion: 0.1,
             apiUrl: 'http://api.boxing.audienciazero.local/'
-            });
+        });
 })();
