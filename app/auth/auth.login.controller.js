@@ -18,25 +18,24 @@
         function activate() {
         }
 
-        function decodeJWTToken(token){
+        function decodeJWTToken(token) {
             var base64Url = token.split('.')[1];
             var base64 = base64Url.replace('-', '+').replace('_', '/');
             return JSON.parse($window.atob(base64));
         }
 
-        function login(){
+        function login() {
 
             var credentials = {
                 email: vm.email,
                 password: vm.password
             };
 
-
             $auth.login(credentials).then(function(data) {
                 return AccountsService.get((decodeJWTToken(data.data.token)).user_id);
-            }, function(error){
+            }, function(error) {
                 console.log(error);
-            }).then(function(response){
+            }).then(function(response) {
                 console.log(response);
                 console.log(response.email);
                 var user = JSON.stringify(response);
@@ -47,7 +46,6 @@
 
                 $state.go('list');
             });
-
 
         }
 

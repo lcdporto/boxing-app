@@ -19,7 +19,7 @@
             vm.logout();
         }
 
-        function logout(){
+        function logout() {
             $auth.logout().then(function() {
                 // Remove the authenticated user from local storage
                 localStorage.removeItem('user');
