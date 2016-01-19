@@ -18,6 +18,7 @@
         $urlMatcherFactoryProvider,
         $locationProvider) {
 
+        /* jshint validthis:true */
         this.$get = RouterHelper;
 
         // enabling the html5Mode will get rid of the urls with
