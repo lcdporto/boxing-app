@@ -1,24 +1,37 @@
 var gulp = require('gulp');
-var webserver = require('gulp-webserver'); // https://www.npmjs.com/package/gulp-webserver
-var inject = require('gulp-inject'); // https://www.npmjs.com/package/gulp-inject
-var util = require('gulp-util'); // https://www.npmjs.com/package/gulp-util
-var debug = require('gulp-debug'); // https://www.npmjs.com/package/gulp-debug
-var jshint = require('gulp-jshint'); // https://github.com/spalger/gulp-jshint
-var jscs = require('gulp-jscs'); // https://github.com/jscs-dev/gulp-jscs
-var map = require('map-stream'); // https://github.com/dominictarr/map-stream
-var yargs = require('yargs').argv; // https://www.npmjs.com/package/yargs
-var gulpif = require('gulp-if'); // https://github.com/robrich/gulp-if
-var annotate = require('gulp-ng-annotate'); // https://www.npmjs.com/package/gulp-ng-annotate
-var filter = require('gulp-filter'); // https://www.npmjs.com/package/gulp-filter
-var uglify = require('gulp-uglify'); // https://github.com/terinjokes/gulp-uglify
-var useref = require('gulp-useref'); // https://www.npmjs.com/package/gulp-useref
-var minify = require('gulp-minify-css'); // https://www.npmjs.com/package/gulp-minify-css
-var imagemin = require('gulp-imagemin'); // https://github.com/sindresorhus/gulp-imagemin
-var listing = require('gulp-task-listing'); // https://www.npmjs.com/package/gulp-task-listing
-var templatecache = require('gulp-angular-templatecache'); // https://www.npmjs.com/package/gulp-angular-templatecache
-var htmlmin = require('gulp-htmlmin'); // https://github.com/jonschlinkert/gulp-htmlmin
 var config = require('./gulp.config.js');
-var runsequence = require('run-sequence'); // https://www.npmjs.com/package/run-sequence
+// https://www.npmjs.com/package/gulp-webserver
+var webserver = require('gulp-webserver');
+// https://www.npmjs.com/package/gulp-inject
+var inject = require('gulp-inject');
+// https://www.npmjs.com/package/gulp-util
+var util = require('gulp-util');
+// https://github.com/spalger/gulp-jshint
+var jshint = require('gulp-jshint');
+// https://github.com/jscs-dev/gulp-jscs
+var jscs = require('gulp-jscs');
+// https://github.com/dominictarr/map-stream
+var map = require('map-stream');
+// https://github.com/robrich/gulp-if
+var gulpif = require('gulp-if');
+// https://www.npmjs.com/package/gulp-ng-annotate
+var annotate = require('gulp-ng-annotate');
+// https://github.com/terinjokes/gulp-uglify
+var uglify = require('gulp-uglify');
+// https://www.npmjs.com/package/gulp-useref
+var useref = require('gulp-useref');
+// https://www.npmjs.com/package/gulp-minify-css
+var minify = require('gulp-minify-css');
+// https://github.com/sindresorhus/gulp-imagemin
+var imagemin = require('gulp-imagemin');
+// https://www.npmjs.com/package/gulp-task-listing
+var listing = require('gulp-task-listing');
+// https://www.npmjs.com/package/gulp-angular-templatecache
+var templatecache = require('gulp-angular-templatecache');
+// https://github.com/jonschlinkert/gulp-htmlmin
+var htmlmin = require('gulp-htmlmin');
+// https://www.npmjs.com/package/run-sequence
+var runsequence = require('run-sequence');
 
 /**
  * Prepares everything to serve the development build
@@ -96,15 +109,16 @@ gulp.task('html-inject', ['templatecache'], function() {
     util.log(util.colors.bgBlue('Custom Code HTML Inject'));
     return gulp
 .src(config.index)
-        // gulp src options: https://github.com/gulpjs/gulp/blob/master/docs/API.md#gulpsrcglobs-options
+        // gulp src options:
+        // https://github.com/gulpjs/gulp/blob/master/docs/API.md#gulpsrcglobs-options
         // we do not need to read the file content, all we need here are the paths
         // gulp inject options: https://github.com/klei/gulp-inject#optionsrelative
 .pipe(inject(gulp.src(config.jsfiles.concat(config.cssfiles), {
-            read: false
-        }), {
-            relative: false,
-            addRootSlash: false
-        }))
+    read: false
+}), {
+    relative: false,
+    addRootSlash: false
+}))
 .pipe(gulp.dest(config.root));
 });
 
@@ -135,6 +149,19 @@ gulp.task('bower-html-inject', function() {
 gulp.task('check', function() {
     runsequence('check-jshint', 'check-jscs');
 });
+/**
+ * Custom jshint reporterer
+ *
+ * This will beep to warn about jshint fails
+ */
+var JSHintBeepReporter = function() {
+    return map(function (file, cb) {
+        if (!file.jshint.success) {
+            util.beep();
+        }
+        cb(null, file);
+    });
+};
 
 /**
  * Code linting using jshint
@@ -144,34 +171,9 @@ gulp.task('check-jshint', function() {
     return gulp
    .src(config.checkfiles)
    .pipe(jshint())
-   .pipe(jshint.reporter('jshint-stylish'), {verbose: true}) //stylish reporter https://github.com/sindresorhus/jshint-stylish
-   .pipe(JSHintBeepReporter());
-});
-
-/**
- * Custom jshint reporterer
- *
- * This will beep to warn about jshint fails
- */
-var JSHintBeepReporter = function(file, cb) {
-    return map(function (file, cb) {
-        if (!file.jshint.success) {
-            util.beep();
-        }
-        cb(null, file);
-    })
-};
-
-/**
- * Check code style using jscs
- */
-gulp.task('check-jscs', function() {
-    util.log(util.colors.bgBlue('Code check using JSCS'));
-    return gulp
-   .src(config.checkfiles)
-   .pipe(jscs())
-   .pipe(jscs.reporter())
-   .pipe(JSCSBeepReporter());
+   //stylish reporter https://github.com/sindresorhus/jshint-stylish
+   .pipe(jshint.reporter('jshint-stylish'), {verbose: true})
+   .pipe(new JSHintBeepReporter());
 });
 
 /**
@@ -188,6 +190,18 @@ var JSCSBeepReporter = function () {
 };
 
 /**
+ * Check code style using jscs
+ */
+gulp.task('check-jscs', function() {
+    util.log(util.colors.bgBlue('Code check using JSCS'));
+    return gulp
+   .src(config.checkfiles)
+   .pipe(jscs())
+   .pipe(jscs.reporter())
+   .pipe(new JSCSBeepReporter());
+});
+
+/**
  * Creates a build to prepare the app for production
  * reads the index.html and picks the required css and js
  * files using useref
@@ -200,8 +214,8 @@ gulp.task('build', ['inject', 'images', 'icons', 'production-settings'], functio
     .pipe(gulpif('*.js', annotate()))
     .pipe(gulpif('*.js', uglify()))
     .pipe(gulpif('*.css', minify()))
-    // the index.html minification step must be the last one since the useref plugin
-    // depends on the comments to know where to find and inject files
+        // the index.html minification step must be the last one since the useref plugin
+        // depends on the comments to know where to find and inject files
     .pipe(gulpif('index.html', htmlmin({collapseWhitespace: true, removeComments: true})))
     .pipe(gulp.dest(config.build));
 });
@@ -269,7 +283,8 @@ gulp.task('templatecache', function() {
  * Lists all available tasks
  * @todo customize list by overring filters
  * By default, is is defined as the regular expression /[-_:]/
- * which means that any task with a hyphen, underscore, or colon in it's name is assumed to be a subtask
+ * which means that any task with a hyphen, underscore,
+ * or colon in it's name is assumed to be a subtask
  */
 gulp.task('help', listing);
 

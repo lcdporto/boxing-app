@@ -32,12 +32,10 @@
             };
 
             $auth.login(credentials).then(function(data) {
-                return AccountsService.get((decodeJWTToken(data.data.token)).user_id);
+                return AccountsService.get((decodeJWTToken(data.data.token))['user_id']);
             }, function(error) {
                 console.log(error);
             }).then(function(response) {
-                console.log(response);
-                console.log(response.email);
                 var user = JSON.stringify(response);
 
                 localStorage.setItem('user', user);
