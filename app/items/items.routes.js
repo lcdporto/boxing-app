@@ -21,6 +21,15 @@
                     controller: 'ItemsListController',
                     controllerAs: 'vm'
                 }
+            },
+            {
+                state: 'item',
+                config: {
+                    url: '/item/:id',
+                    templateUrl: 'app/items/items.detail.html',
+                    controller: 'ItemsDetailController',
+                    controllerAs: 'vm'
+                }
             }
         ];
     }

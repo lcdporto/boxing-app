@@ -2,6 +2,10 @@
 <html lang="en" ng-app="app">
     <head>
 
+        <!-- by default a base is required when html5Mode is enabled -->
+        <!-- https://docs.angularjs.org/error/$location/nobase  -->
+        <base href="/">
+
         <!-- build:css css/styles.css -->
         <!-- bower:css -->
         <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
@@ -74,8 +78,5 @@
         <!-- endinject -->
         <!-- endbuild -->
 
-        <!-- by default a base is required when html5Mode is enabled -->
-        <!-- https://docs.angularjs.org/error/$location/nobase  -->
-        <base href="/">
     </body>
 </html>

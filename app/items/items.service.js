@@ -10,6 +10,7 @@
     /* @ngInject */
     function Service(ItemsFactory, ContainersService, $q) {
         this.all = all;
+        this.get = get;
 
         function all() {
             var items;
@@ -29,5 +30,15 @@
                 return $q.all(requests);
             });
         }
+
+        function get(id) {
+            return ItemsFactory.get({id: id}).$promise.then(function(item) {
+                return ContainersService.get(item.container).then(function(container) {
+                    item.container = container;
+                    return item;
+                });
+            });
+        }
+
     }
 })();
