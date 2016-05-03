@@ -11,7 +11,7 @@
             <md-list-item class="md-2-line">
                 <img ng-src="{{item.image}}?{{$index}}" class="md-avatar" alt="{{item.name}}" />
                 <div class="md-list-item-text" layout="column">
-                    <h3>{{ item.name}}</h3>
+                    <h3><a ui-sref="item({id:item.id})" class="item-link">{{item.name}}</a></h3>
                     <p>Local: {{ item.container.name}}</p>
                 </div>
             </md-list-item>

@@ -36,3 +36,8 @@ body{
     left: 15px;
     opacity: 0.4;
 }
+
+.item-link{
+    color: rgba(96,135,129,100);
+    text-decoration: none;
+}
