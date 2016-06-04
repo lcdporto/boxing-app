@@ -21,3 +21,13 @@ app/core/templates.js
 
 # build folder
 build/
+
+node_modules/
+bower_components/
+coverage/
+.sass-cache/
+.idea/
+.tmp/
+dist/
+.editorconfig
+src/.DS_Store

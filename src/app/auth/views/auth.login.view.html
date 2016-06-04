@@ -1,0 +1,41 @@
+<md-content flex layout-align="center center" layout="column" id="login-page">
+
+    <md-input-container class="general-login-error" ng-if="vm.member.data.non_field_errors">
+        <div ng-messages>
+            <div ng-repeat="message in vm.member.data.non_field_errors">
+                {{message}}
+            </div>
+        </div>
+    </md-input-container>
+    <br/>
+    <form ng-submit="vm.login();" style="padding: 50px;">
+        <md-input-container class="md-icon-float md-block" flex-gt-sm>
+            <label>Email</label>
+            <md-icon> mail_outline</md-icon>
+            <input ng-model="vm.email">
+            <div ng-messages>
+                <div ng-repeat="message in vm.member.data.email">
+                    {{message}}
+                </div>
+            </div>
+        </md-input-container>
+
+        <md-input-container class="md-icon-float md-block" flex-gt-sm>
+            <label>Password</label>
+            <md-icon> lock_outline</md-icon>
+            <input type="password" ng-model="vm.password">
+            <div ng-messages>
+                <div ng-repeat="message in vm.member.data.password">
+                    {{message}}
+                </div>
+            </div>
+        </md-input-container>
+
+
+        <div layout="row" layout-align="center center">
+            <md-button class="md-raised md-accent" type="submit"> Entrar</md-button>
+        </div>
+    </form>
+
+
+</md-content>

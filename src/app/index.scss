@@ -1,0 +1,88 @@
+/**
+ *  Do not remove the comment below. It's the markers used by wiredep to inject
+ *  sass dependencies when defined in the bower.json of your dependencies
+ */
+// bower:scss
+// endbower
+
+[layout=row] {
+  flex-direction: row;
+}
+
+[ng\:cloak], [ng-cloak], .ng-cloak {
+    display: none !important;
+}
+
+.browsehappy {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+
+body{
+    background: #ECECEC;
+    overflow: hidden;
+}
+
+#app-header{
+    position: relative;
+    z-index: 10;
+}
+
+#page-wrapper{
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin: -64px auto 64px auto;
+    background: white;
+    z-index: 20;
+}
+
+.item-line{
+    a{
+        margin: 0px;
+        padding-top: 8px;
+    }
+}
+
+.page-toolbar{
+    height: 64px;
+    border-bottom: solid 1px #eee;
+    background-color: white !important;
+}
+
+
+
+
+
+/*
+.header-toolbar{
+    position: relative;
+    color: rgba(0,0,0,0.54) !important;
+    background: white !important;
+    border-bottom: solid 1px #EEE;
+    height: 64px !important;
+}
+
+.header-toolbar > input[type=text]{
+    padding-left: 60px;
+    padding-right: 20px;
+    border: 0px;
+}
+
+.header-toolbar > md-icon.search{
+    position: absolute;
+    top: 47%;
+    transform: translateY(-50%);
+    left: 15px;
+    opacity: 0.4;
+}
+*/
+
+/**
+ *  Do not remove the comment below. It's the markers used by gulp-inject to inject
+ *  all your sass files automatically
+ */
+// injector
+// endinjector

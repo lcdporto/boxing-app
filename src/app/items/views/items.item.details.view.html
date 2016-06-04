@@ -1,0 +1,71 @@
+<md-toolbar class="page-toolbar">
+    <div class="md-toolbar-tools">
+        <md-button class="md-icon-button" ng-click="$history.back();" ng-if="$history.hasBack();">
+            <md-icon>arrow_back</md-icon>
+        </md-button>
+        <md-button class="md-icon-button" ui-sref="itemsList" ng-if="!$history.hasBack();">
+            <md-icon>arrow_back</md-icon>
+        </md-button>
+        <h3>
+            <span>{{::vm.item.name}}</span>
+        </h3>
+        <span flex></span>
+    </div>
+</md-toolbar>
+
+<md-content layout-padding>
+
+    <div layout="column" layout-gt-xs="row">
+        <div flex="70" class="item-galery">
+            <div class="images-holder" layout="row" layout-align="space-around center">
+                <div class="image-holder" ng-init="fullAvatar = (vm.item.avatar | mediaUrl); vm.zoomImgUrl = fullAvatar"
+                     ng-click="vm.zoomImgUrl = fullAvatar">
+                    <img ng-src="{{::vm.item.avatar | mediaUrl}}"/>
+                </div>
+                <div ng-repeat="image in vm.item.$images" class="image-holder"
+                     ng-init="fullAvatar = (image.path | mediaUrl)" ng-click="vm.zoomImgUrl = fullAvatar">
+                    <img ng-src="{{::image.path | mediaUrl}}"/>
+                </div>
+            </div>
+            <div class="zoom-img">
+                <img src="{{vm.zoomImgUrl}}" style="width: 100%"/>
+            </div>
+        </div>
+        <div flex="30">
+            <table class="item-details-table">
+                <tr>
+                    <th>Category</th>
+                    <td>{{::vm.item.$category.name}}</td>
+                </tr>
+                <tr>
+                    <th>Container</th>
+                    <td>{{::vm.item.$container.name}}</td>
+                </tr>
+                <tr>
+                    <th>Quantity</th>
+                    <td>{{::vm.item.quantity}}</td>
+                </tr>
+                <tr>
+                    <td class="item-description" colspan="2">
+                        <span>Description</span>
+                        {{::vm.item.description}}
+                    </td>
+                </tr>
+            </table>
+
+            <br />
+
+            <md-list ng-if="vm.item.$relatedItems.length > 0" style="margin-left: 15px;" class="related-items-list">
+                <md-subheader>Related items</md-subheader>
+                <md-list-item class="md-2-line item-line" ui-sref="itemDetails({id: related.id})"
+                              ng-repeat="related in vm.item.$relatedItems">
+                    <img ng-src="{{related.avatar | mediaUrl}}" class="md-avatar" alt="{{related.name}}"/>
+                    <div class="md-list-item-text" layout="column">
+                        <h3><a ui-sref="item({id:related.id})" class="item-link">{{related.name}}</a></h3>
+                    </div>
+                </md-list-item>
+            </md-list>
+        </div>
+    </div>
+
+</md-content>

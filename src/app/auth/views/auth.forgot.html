@@ -1,0 +1,101 @@
+<md-content flex layout-align="center center" layout="column" id="login-page">
+
+    <div id="login-raised-box" class="md-whiteframe-2dp">
+        <p>Insira o seu endereço de email para repor a palavra-passe</p>
+
+        <br/>
+        <form ng-submit="vm.requestChange();" cg-busy="vm.requestStatus" ng-hide="vm.requestStatus.$$state.value.status==200">
+            <md-input-container class="md-icon-float md-block" flex-gt-sm>
+                <label>Email</label>
+                <md-icon> mail_outline</md-icon>
+                <input ng-model="vm.email">
+                <div ng-messages>
+                    <div>
+                        {{vm.requestStatus.$$state.value.data.detail}}
+                    </div>
+                </div>
+            </md-input-container>
+            <div layout="row" layout-align="center center">
+                <md-button class="md-raised md-accent" type="submit">Repor palavra-passe</md-button>
+            </div>
+        </form>
+
+        <div ng-if="vm.requestStatus.$$state.value.status==200" layout="column" layout-padding="" layout-align="center center"
+             style="border: solid rgba(150, 255, 150, 0.6) 2px; background-color: rgba(150, 255, 150, 0.2)">
+            <md-icon>email_outline</md-icon>
+            <p style="text-align: center">
+                O link para continuar o processo de alteração de palavra-passe foi enviado para o seu endereço de email.
+                <br/>
+            </p>
+        </div>
+    </div>
+
+
+</md-content>
+
+
+<style>
+    body {
+        background-image: url('assets/images/background.jpg');
+        background-size: cover;
+    }
+
+    #page-wrapper {
+        background-color: rgba(103, 58, 183, 0.5);
+    }
+
+    #login-page {
+        color: white;
+        background-color: transparent;
+    }
+
+    #login-page h1 {
+        color: white;
+        text-align: center;
+        margin-bottom: 1.5em;
+        font-weight: 300;
+    }
+
+    #login-page .material-icons {
+        color: rgba(255, 255, 255, 0.6);
+        top: 5px;
+    }
+
+    #login-page md-input-container:not(.md-input-invalid).md-input-focused .md-input, #login-page md-input-container:not(.md-input-invalid) .md-input {
+        border-color: rgba(255, 255, 255, 0.6);
+        color: white;
+    }
+
+    #login-page md-input-container.md-default-theme label, md-input-container label, md-input-container.md-default-theme .md-placeholder, md-input-container .md-placeholder {
+        color: rgba(255, 255, 255, 0.6) !important;
+    }
+
+    #login-raised-box {
+        max-width: 400px;
+        width: 100%;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.3);
+        position: relative;
+    }
+
+    #login-page hr, #login-page .register-action {
+        opacity: 0.6;
+    }
+
+    #login-page a {
+        color: white;
+    }
+
+    .general-login-error {
+        position: absolute;
+        top: 0px;
+        left: 10%;
+        width: 80%;
+        background: rgba(100, 100, 100, 0.3);
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+        text-align: center;
+        margin: 0px;
+        padding: 10px;
+    }
+</style>

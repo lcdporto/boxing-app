@@ -1,0 +1,40 @@
+<md-toolbar class="page-toolbar" id="items-list-toolbar">
+    <div class="md-toolbar-tools">
+        <md-icon>search</md-icon>
+        <input type="text" placeholder="Search" ng-model="vm.items.$params.search" ng-change="vm.filter();" autofocus flex/>
+
+        <md-select ng-model="vm.items.$params.category" aria-label="Filter by category" placeholder="Categories" md-on-close="vm.filter();" style="margin-right: 15px;">
+            <md-option value="">All</md-option>
+            <md-option ng-repeat="category in vm.categories" value="{{::category.id}}">
+                {{::category.name}}
+            </md-option>
+        </md-select>
+
+        <md-select ng-model="vm.items.$params.container" aria-label="Filter by container" placeholder="Containers" md-on-close="vm.filter();">
+            <md-option value="">All</md-option>
+            <md-option ng-repeat="container in vm.containers" value="{{::container.id}}">
+                {{::container.name}}
+            </md-option>
+        </md-select>
+    </div>
+</md-toolbar>
+
+<md-content cg-busy="{promise:vm.items.$promise, minDuration:500}">
+    <md-list class="items-list">
+        <md-list-item class="md-2-line item-line" ui-sref="itemDetails({id: item.id})" ng-repeat="item in vm.items">
+            <img ng-src="{{item.avatar | mediaUrl}}" class="md-avatar" alt="{{item.name}}"/>
+            <div class="md-list-item-text" layout="column">
+                <h3><a ui-sref="item({id:item.id})" class="item-link">{{item.name}}</a></h3>
+                <p ng-if="item.$container || item.$category">
+                    <span ng-if="item.$container">Local: {{ item.$container.name}}</span>
+                    <span ng-if="item.$category" class="item-label">dasdsa{{ item.$category.name}}</span>
+                </p>
+            </div>
+        </md-list-item>
+    </md-list>
+    <h1 style="color: #ccc; text-align:center;" ng-if="vm.items.length == 0">
+        <br />
+        0 items found
+        <br /><br />
+    </h1>
+</md-content>
