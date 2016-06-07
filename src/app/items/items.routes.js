@@ -15,7 +15,7 @@
             {
                 state: 'itemsList',
                 config: {
-                    url: '/items',
+                    url: '/',
                     templateUrl: 'app/items/views/items.list.view.html',
                     controller: 'ItemsListController',
                     controllerAs: 'vm',

@@ -18,7 +18,7 @@
         $rootScope.me.$pk = user.id;
         if (toState.name === 'auth') {
           event.preventDefault();
-          $state.go('home');
+          //$state.go('itemsList');
         }
       }
     });

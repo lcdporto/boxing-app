@@ -31,7 +31,7 @@
           // passing the credentials, in this case email and password
           var msg = 'Authentication credentials were not provided.';
           if (rejection.data.detail === msg && $state.current.name !== 'auth') {
-            localStorage.removeItem('user');
+            localStorage.removeItem('member');
             $state.go('auth');
           }
 

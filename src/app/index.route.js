@@ -7,7 +7,6 @@
 
   /** @ngInject */
   function routerConfig($urlRouterProvider) {
-    $urlRouterProvider.otherwise('/items');
   }
 
 })();

@@ -15,10 +15,14 @@
         activate();
 
         function activate() {
+            $auth.logout().then(function() {
+                // Remove the authenticated user from local storage
+                localStorage.removeItem('member');
+                $rootScope.me = false;
+            });
         }
 
         function login() {
-
             var credentials = {
                 email: vm.email,
                 password: vm.password
