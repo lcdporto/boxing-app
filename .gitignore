@@ -31,3 +31,6 @@ coverage/
 dist/
 .editorconfig
 src/.DS_Store
+
+# ignores utils scripts
+deploy.sh
