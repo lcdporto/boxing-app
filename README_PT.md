@@ -2,7 +2,7 @@
 
 ## Boxing Lab APP ##
 
-O Boxing Lab APP é uma aplicação para tornar a procura de objectos no Laboratório de maneira mais fácil e eficiente.
+O Boxing Lab APP é uma aplicação para tornar a procura de objetos no Laboratório de maneira mais fácil e eficiente.
 A aplicação foi desenvolvida em AngularJS.
 Estejam à vontade para reportar melhorias e/ou contribuir com PullRequests
 
@@ -11,7 +11,7 @@ Estejam à vontade para reportar melhorias e/ou contribuir com PullRequests
 
 ## Companion Repo: The API ##
 
-* Esta aplpicação requer RESTful API
+* Esta aplicação requer RESTful API
 * Você vai encontrar um repositório contendo a API em https://github.com/lcdporto/boxing-api
 * Para facilitar a instalação da API criámos uma imagem do Docker https://hub.docker.com/r/lcdporto/boxing-api/
 * A aplicação vai procurar a API no "localhost" na porta 80. Pode ser alterado em app/core/settings.js
@@ -23,14 +23,14 @@ $ docker run -tid --name boxing-api -p 80:80 lcdporto/boxing-api
 ```
 ### Dependências ###
 
-* node and npm (dependento do OS)
+* node and npm (dependendo do OS)
 * bower
 * gulp
 
 ### Como instalar? ###
 
 * Faça clone do repositório
-* Verifique que está na raíz do diretório (i.e. boxing-app)
+* Verifique que está na raiz do diretório (i.e. boxing-app)
 * Verifique que tem node e npm instalado
 * Instale as dependências Dev
 
@@ -75,8 +75,8 @@ $ gulp serve
 #### Verifique o seu código ####
 
 * Nós implementámos "linting" com jshint e analisador de código com jdcd, a sua contribuição tem que ser validade nesses testes
-* As regras do jshint estão definidas no ficheiro .jshintrc, para uma melhor compreenção aconselha-se a leitura em http://jshint.com/docs/options/
-* As regras do jscs estão definidas no ficheiro .jscsrc, para uma melhor compreenção aconselha-se a leitura em: http://jscs.info/rules
+* As regras do jshint estão definidas no ficheiro .jshintrc, para uma melhor compreensão aconselha-se a leitura em http://jshint.com/docs/options/
+* As regras do jscs estão definidas no ficheiro .jscsrc, para uma melhor compreensão aconselha-se a leitura em: http://jscs.info/rules
 * Ambos os ficheiros com as definições das regras estão em desenvolvimento, se encontrar algum defeito crie um alerta
 
 ```
@@ -99,6 +99,6 @@ Caso tenha algo a dizer pode contactar:
 * Ighor Martins (ighor.martins@gmail.com)
 * Ricardo Lobo (ricardolobo@audienciazero.org)
 
-É sempre bem vindo ao nosso laboratório :)
+É sempre bem-vindo ao nosso laboratório :)
 
-Mais informação em: http://labcd.org/
+Mais informações em: http://labcd.org/
