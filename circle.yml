@@ -1,0 +1,20 @@
+machine:
+  node:
+    version: 6.2.2
+  services:
+    - docker
+  environment:
+    SHORT_GIT_HASH: $(echo $CIRCLE_SHA1 | cut -c -7)
+test:
+  override:
+    - npm install -g bower
+    - bower install --allow-root
+    - npm run build
+deployment:
+  dev:
+    branch: development
+    commands:
+      - docker build --rm=false --no-cache=true -t $EXTERNAL_REGISTRY_ENDPOINT/$REPO_NAME:$SHORT_GIT_HASH .
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS $EXTERNAL_REGISTRY_ENDPOINT
+      - docker push $EXTERNAL_REGISTRY_ENDPOINT/$REPO_NAME:$SHORT_GIT_HASH
+      - ./deploy.sh "$EXTERNAL_REGISTRY_ENDPOINT/$REPO_NAME:$SHORT_GIT_HASH"
