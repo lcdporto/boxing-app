@@ -3,11 +3,11 @@
 
     angular
         .module('app.tables')
-        .factory('AccountsTable', RestmodFactory);
+        .factory('ItemFilesTable', RestmodFactory);
 
     /* @ngInject */
     function RestmodFactory(restmod) {
-        return restmod.model('/users').mix('MixinContainable', {
+        return restmod.model('/item-files').mix('MixinContainable', {
             $config: {
                 contains: {}
             }

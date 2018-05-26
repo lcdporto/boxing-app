@@ -24,6 +24,11 @@
                         type:'hasMany',
                         table: 'MediaTable',
                         foreignKey: 'item'
+                    },
+                    files: {
+                        type:'hasMany',
+                        table: 'ItemFilesTable',
+                        foreignKey: 'item'
                     }
                 }
             }

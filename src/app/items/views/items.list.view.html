@@ -1,7 +1,7 @@
 <md-toolbar class="page-toolbar" id="items-list-toolbar">
     <div class="md-toolbar-tools">
         <md-icon>search</md-icon>
-        <input type="text" placeholder="Search" ng-model="vm.items.$params.search" ng-change="vm.filter();" autofocus flex/>
+        <input type="text" placeholder="Search" ng-model="vm.items.$params.name__icontains" ng-change="vm.filter();" autofocus flex/>
 
         <md-select ng-model="vm.items.$params.category" aria-label="Filter by category" placeholder="Categories" md-on-close="vm.filter();" style="margin-right: 15px;">
             <md-option value="">All</md-option>

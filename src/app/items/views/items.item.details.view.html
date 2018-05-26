@@ -15,23 +15,13 @@
 
 <md-content layout-padding>
 
-    <div layout="column" layout-gt-xs="row">
-        <div flex="70" class="item-galery">
-            <div class="images-holder" layout="row" layout-align="space-around center">
-                <div class="image-holder" ng-init="fullAvatar = (vm.item.avatar | mediaUrl); vm.zoomImgUrl = fullAvatar"
-                     ng-click="vm.zoomImgUrl = fullAvatar">
-                    <img ng-src="{{::vm.item.avatar | mediaUrl}}"/>
-                </div>
-                <div ng-repeat="image in vm.item.$images" class="image-holder"
-                     ng-init="fullAvatar = (image.path | mediaUrl)" ng-click="vm.zoomImgUrl = fullAvatar">
-                    <img ng-src="{{::image.path | mediaUrl}}"/>
-                </div>
-            </div>
-            <div class="zoom-img">
+    <div layout="row" layout-xs="column">
+        <div flex-gt-xs="70" class="item-galery">
+            <div class="zoom-img" ng-init="fullAvatar = (vm.item.avatar | mediaUrl); vm.zoomImgUrl = fullAvatar">
                 <img src="{{vm.zoomImgUrl}}" style="width: 100%"/>
             </div>
         </div>
-        <div flex="30">
+        <div flex-gt-xs="30">
             <table class="item-details-table">
                 <tr>
                     <th>Category</th>
@@ -46,6 +36,10 @@
                     <td>{{::vm.item.quantity}}</td>
                 </tr>
                 <tr>
+                    <th>Is in use</th>
+                    <td>{{(vm.item.inUse)?'Yes':'No'}}</td>
+                </tr>
+                <tr>
                     <td class="item-description" colspan="2">
                         <span>Description</span>
                         {{::vm.item.description}}
@@ -53,7 +47,7 @@
                 </tr>
             </table>
 
-            <br />
+            <br/>
 
             <md-list ng-if="vm.item.$relatedItems.length > 0" style="margin-left: 15px;" class="related-items-list">
                 <md-subheader>Related items</md-subheader>
@@ -62,6 +56,13 @@
                     <img ng-src="{{related.avatar | mediaUrl}}" class="md-avatar" alt="{{related.name}}"/>
                     <div class="md-list-item-text" layout="column">
                         <h3><a ui-sref="item({id:related.id})" class="item-link">{{related.name}}</a></h3>
+                    </div>
+                </md-list-item>
+                <md-subheader ng-if="vm.item.$relatedFiles.length">Related files</md-subheader>
+                <md-list-item class="md-2-line item-line" ng-repeat="related in vm.item.$relatedFiles">
+                    <div class="md-list-item-text" layout="column">
+                        <h3><a href="{{vm.mediaUrl + '/' + related.file}}" target="_blank" class="item-link">{{related.file}}</a>
+                        </h3>
                     </div>
                 </md-list-item>
             </md-list>
