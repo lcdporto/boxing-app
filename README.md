@@ -17,8 +17,7 @@ Feel free to report issues and contribute with some PullRequests
 * The angular app expects the API to be located on the localhost port 80, this can be changed at app/core/settings.js
 * Example of creating and running a container
 
-```
-#!shell
+```sh
 $ docker run -tid --name boxing-api -p 80:80 lcdporto/boxing-api
 ```
 ### Dependencies ###
@@ -34,27 +33,23 @@ $ docker run -tid --name boxing-api -p 80:80 lcdporto/boxing-api
 * Make sure you have node and npm installed
 * Install Dev dependencies with
 
-```
-#!shell
+```sh
 $ npm install
 ```
 
 * Install Bower and Gulp globally with
 
-```
-#!shell
+```sh
 $ npm install -g bower
 ```
 
-```
-#!shell
+```sh
 $ npm install -g gulp
 ```
 
 * Install the APP dependencies with
 
-```
-#!shell
+```sh
 $ bower install
 ```
 
@@ -62,8 +57,7 @@ $ bower install
 * If need change the apiUrl property to match your development api url (e.g http://127.0.0.1:8080/)
 * Launch the development server with
 
-```
-#!shell
+```sh
 $ gulp serve
 ```
 
@@ -80,8 +74,7 @@ $ gulp serve
 * Both rule files are considered work in progress, if you have something to say about them open up an issue
 * To check your code
 
-```
-#!shell
+```sh
 $ gulp check
 ```
 
@@ -102,4 +95,4 @@ If you have something to say, feel free to contact:
 
 You can always come to our Lab too :)
 
-More info at: http://labcd.org/
+More info at: https://lcdporto.org
